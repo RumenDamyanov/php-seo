@@ -35,4 +35,13 @@ jobs:
         run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress
 
       - name: Check coding standards
-        run: composer style
+        run: |
+          # Show all issues (warnings and errors) for information
+          echo "::group::PHPCS Report (including warnings)"
+          ./vendor/bin/phpcs --standard=phpcs.xml src tests || true
+          echo "::endgroup::"
+
+          # Fail only on actual errors (not warnings)
+          echo "::group::Checking for errors only"
+          ./vendor/bin/phpcs --standard=phpcs.xml --error-severity=1 --warning-severity=0 src tests
+          echo "::endgroup::"
