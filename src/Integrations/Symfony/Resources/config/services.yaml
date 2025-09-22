@@ -1,0 +1,48 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    # Configuration
+    Rumenx\PhpSeo\Config\SeoConfig:
+        arguments:
+            $config: '%seo%'
+
+    # Core services
+    Rumenx\PhpSeo\SeoManager:
+        arguments:
+            $config: '@Rumenx\PhpSeo\Config\SeoConfig'
+        public: true
+
+    # Analyzers
+    Rumenx\PhpSeo\Analyzers\ContentAnalyzer:
+        arguments:
+            $config: '@Rumenx\PhpSeo\Config\SeoConfig'
+
+    # Generators
+    Rumenx\PhpSeo\Generators\TitleGenerator:
+        arguments:
+            $config: '@Rumenx\PhpSeo\Config\SeoConfig'
+
+    Rumenx\PhpSeo\Generators\DescriptionGenerator:
+        arguments:
+            $config: '@Rumenx\PhpSeo\Config\SeoConfig'
+
+    Rumenx\PhpSeo\Generators\MetaTagGenerator:
+        arguments:
+            $config: '@Rumenx\PhpSeo\Config\SeoConfig'
+
+    # Twig extensions
+    Rumenx\PhpSeo\Integrations\Symfony\Twig\SeoExtension:
+        arguments:
+            $seoManager: '@Rumenx\PhpSeo\SeoManager'
+        tags:
+            - { name: twig.extension }
+
+    # Event listeners
+    Rumenx\PhpSeo\Integrations\Symfony\EventListener\SeoResponseListener:
+        arguments:
+            $seoManager: '@Rumenx\PhpSeo\SeoManager'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }

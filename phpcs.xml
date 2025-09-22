@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="PHP SEO Coding Standard">
+    <description>Coding standard for the PHP SEO package</description>
+
+    <!-- Use PSR-12 as base -->
+    <rule ref="PSR12"/>
+
+    <!-- Paths to check -->
+    <file>src</file>
+    <file>tests</file>
+
+    <!-- Exclude vendor directory -->
+    <exclude-pattern>vendor</exclude-pattern>
+    <exclude-pattern>coverage-report</exclude-pattern>
+    <exclude-pattern>.phpunit.cache</exclude-pattern>
+
+    <!-- Additional rules -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="Generic.Commenting.Todo"/>
+    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+    <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+    <rule ref="Generic.PHP.LowerCaseConstant"/>
+    <rule ref="Generic.PHP.LowerCaseKeyword"/>
+    <rule ref="Generic.PHP.LowerCaseType"/>
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+    
+    <!-- Squiz rules with exclusions -->
+    <rule ref="Squiz.PHP.DisallowSizeFunctionsInLoops">
+        <!-- Allow strlen in loops for specific performance cases -->
+        <exclude-pattern>src/Generators/DescriptionGenerator.php</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.PHP.Eval"/>
+    <rule ref="Squiz.Scope.MemberVarScope"/>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+        <properties>
+            <property name="ignoreBlankLines" value="true"/>
+        </properties>
+    </rule>
+    
+    <!-- Allow longer lines for some contexts -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="140"/>
+            <property name="absoluteLineLimit" value="200"/>
+        </properties>
+        <!-- Be more lenient with tests -->
+        <exclude-pattern>tests</exclude-pattern>
+    </rule>
+    
+    <!-- More lenient line length for tests -->
+    <rule ref="Generic.Files.LineLength.TooLong">
+        <exclude-pattern>tests</exclude-pattern>
+    </rule>
+
+    <!-- Exclude some checks for tests -->
+    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+        <exclude-pattern>tests</exclude-pattern>
+    </rule>
+    
+    <!-- Allow global keyword in test files for mocking -->
+    <rule ref="Squiz.PHP.GlobalKeyword">
+        <exclude-pattern>tests</exclude-pattern>
+    </rule>
+    
+    <!-- Allow classes without namespaces in Laravel tests -->
+    <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+        <exclude-pattern>tests/Unit/Integrations/Laravel</exclude-pattern>
+    </rule>
+</ruleset>

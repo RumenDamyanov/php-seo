@@ -1,0 +1,19 @@
+parameters:
+    level: 5
+    paths:
+        - src
+    tmpDir: .phpstan.cache
+    treatPhpDocTypesAsCertain: false
+    
+    ignoreErrors:
+        # Allow empty() construct for now
+        - '#Construct empty\(\) is not allowed\. Use more strict comparison\.#'
+        
+        # Allow mixed types in boolean contexts for configuration arrays
+        - '#Only booleans are allowed in (an if condition|&&|\|\||a negated boolean|a ternary operator condition), mixed given#'
+        
+        # Allow short ternary operators for now
+        - '#Short ternary operator is not allowed\. Use null coalesce operator if applicable or consider using long ternary\.#'
+    
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon

@@ -1,0 +1,114 @@
+{
+    "name": "rumenx/php-seo",
+    "description": "AI-powered, framework-agnostic PHP package for automated SEO optimization. Intelligently generates meta tags, titles, descriptions, and alt texts using configurable AI providers or manual patterns.",
+    "keywords": [
+        "seo",
+        "meta-tags",
+        "laravel",
+        "symfony",
+        "ai-powered",
+        "automation",
+        "optimization",
+        "php",
+        "framework-agnostic",
+        "openai",
+        "claude",
+        "ollama"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rumen Damyanov",
+            "email": "contact@rumenx.com",
+            "homepage": "https://github.com/RumenDamyanov",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/RumenDamyanov/php-seo",
+    "support": {
+        "issues": "https://github.com/RumenDamyanov/php-seo/issues",
+        "source": "https://github.com/RumenDamyanov/php-seo",
+        "docs": "https://github.com/RumenDamyanov/php-seo/wiki"
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/RumenDamyanov"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/log": "^3.0",
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.48",
+        "laravel/framework": "^11.0",
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^9.0",
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-type-coverage": "^2.8",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-strict-rules": "^1.5",
+        "squizlabs/php_codesniffer": "^3.8",
+        "symfony/dependency-injection": "^7.3",
+        "symfony/framework-bundle": "^7.0",
+        "symfony/http-kernel": "^7.3",
+        "symfony/var-dumper": "^7.0",
+        "twig/twig": "^3.21"
+    },
+    "suggest": {
+        "laravel/framework": "For Laravel integration (^10.0|^11.0)",
+        "symfony/framework-bundle": "For Symfony integration (^6.0|^7.0)",
+        "monolog/monolog": "For enhanced logging support"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rumenx\\PhpSeo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rumenx\\PhpSeo\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "pest",
+        "test-coverage": "pest --coverage",
+        "test-coverage-html": "pest --coverage-html coverage",
+        "analyze": "phpstan analyse",
+        "style": "phpcs",
+        "style-fix": "php-cs-fixer fix",
+        "quality": [
+            "@style",
+            "@analyze",
+            "@test"
+        ],
+        "post-autoload-dump": [
+            "@php ./vendor/bin/testbench package:discover --ansi"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rumenx\\PhpSeo\\Integrations\\Laravel\\SeoServiceProvider"
+            ],
+            "aliases": {
+                "Seo": "Rumenx\\PhpSeo\\Integrations\\Laravel\\SeoFacade"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

@@ -1,0 +1,55 @@
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+vendor/
+node_modules/
+
+# PHP
+.phpunit.result.cache
+.phpunit.cache/
+.phpstan.cache/
+.php-cs-fixer.cache
+
+# Testing & Coverage
+coverage/
+coverage-report/
+coverage.xml
+*.coverage
+junit.xml
+.clover.xml
+
+# Build & Logs
+/build/
+*.log
+
+# AI & Development
+.ai/
+.venv/
+
+# Temporary ignored
+wiki/
+examples/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
