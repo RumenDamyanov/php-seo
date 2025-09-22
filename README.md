@@ -42,10 +42,11 @@
 
 - 🚀 [Installation](#installation)
 - 💡 [Usage Examples](#usage-examples)
-- ⚙️ [Configuration](#configuration)
-- 🤖 [AI Providers](#ai-providers)
+- ⚙️ [Configuration](https://github.com/RumenDamyanov/php-seo/wiki/Configuration)
+- 🤖 [AI Providers](https://github.com/RumenDamyanov/php-seo/wiki/AI-Integration)
 - 🧪 [Testing & Development](#testing--development)
 - 🤝 [Contributing](CONTRIBUTING.md)
+- 💬 [Discussions](https://github.com/RumenDamyanov/php-seo/discussions)
 - 🔒 [Security Policy](SECURITY.md)
 - 💝 [Support & Funding](FUNDING.md)
 - 📄 [License](#license)
@@ -441,13 +442,13 @@ composer quality
 
 ## 📚 Documentation
 
-- [Configuration Reference](wiki/Configuration)
-- [AI Integration Guide](wiki/AI-Integration)
-- [Laravel Examples](wiki/Laravel-Examples)
-- [Symfony Examples](wiki/Symfony-Examples)
-- [Plain PHP Examples](wiki/Plain-PHP-Examples)
-- [Basic Examples](wiki/Basic-Examples)
-- [Home](wiki/Home)
+- [Configuration Reference](https://github.com/RumenDamyanov/php-seo/wiki/Configuration)
+- [AI Integration Guide](https://github.com/RumenDamyanov/php-seo/AI-Integration)
+- [Laravel Examples](https://github.com/RumenDamyanov/php-seo/Laravel-Examples)
+- [Symfony Examples](https://github.com/RumenDamyanov/php-seo/Symfony-Examples)
+- [Plain PHP Examples](https://github.com/RumenDamyanov/php-seo/Plain-PHP-Examples)
+- [Basic Examples](https://github.com/RumenDamyanov/php-seo/Basic-Examples)
+- [Home](https://github.com/RumenDamyanov/php-seo/Home)
 
 ## 🤝 Contributing
 
