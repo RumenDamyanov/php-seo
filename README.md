@@ -443,12 +443,12 @@ composer quality
 ## 📚 Documentation
 
 - [Configuration Reference](https://github.com/RumenDamyanov/php-seo/wiki/Configuration)
-- [AI Integration Guide](https://github.com/RumenDamyanov/php-seo/AI-Integration)
-- [Laravel Examples](https://github.com/RumenDamyanov/php-seo/Laravel-Examples)
-- [Symfony Examples](https://github.com/RumenDamyanov/php-seo/Symfony-Examples)
-- [Plain PHP Examples](https://github.com/RumenDamyanov/php-seo/Plain-PHP-Examples)
-- [Basic Examples](https://github.com/RumenDamyanov/php-seo/Basic-Examples)
-- [Home](https://github.com/RumenDamyanov/php-seo/Home)
+- [AI Integration Guide](https://github.com/RumenDamyanov/php-seo/wiki/AI-Integration)
+- [Laravel Examples](https://github.com/RumenDamyanov/php-seo/wiki/Laravel-Integration)
+- [Symfony Examples](https://github.com/RumenDamyanov/php-seo/wiki/Symfony-Integration)
+- [Plain PHP Examples](https://github.com/RumenDamyanov/php-seo/wiki/Plain-PHP-Examples)
+- [Basic Examples](https://github.com/RumenDamyanov/php-seo/wiki/Basic-Examples)
+- [Home](https://github.com/RumenDamyanov/php-seo/wiki/Home)
 
 ## 🤝 Contributing
 
