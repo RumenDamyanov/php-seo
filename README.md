@@ -6,8 +6,6 @@
 [![CodeQL](https://github.com/RumenDamyanov/php-seo/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/RumenDamyanov/php-seo/actions/workflows/github-code-scanning/codeql)
 [![Dependabot](https://github.com/RumenDamyanov/php-seo/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/RumenDamyanov/php-seo/actions/workflows/dependabot/dependabot-updates)
 [![codecov](https://codecov.io/gh/RumenDamyanov/php-seo/branch/master/graph/badge.svg)](https://codecov.io/gh/RumenDamyanov/php-seo)
-[![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-blue.svg)](https://php.net)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 
 **php-seo** is a modern, AI-powered, framework-agnostic PHP package for automated SEO optimization. It intelligently generates meta tags, titles, descriptions, and alt texts using configurable AI providers or manual patterns, seamlessly integrating with Laravel, Symfony, or any PHP project.
 
