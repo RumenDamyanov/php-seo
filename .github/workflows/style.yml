@@ -9,6 +9,8 @@ on:
 jobs:
   style:
     name: Code Style Check
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
 
     steps:
