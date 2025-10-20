@@ -4288,21 +4288,21 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v9.16.3",
+            "version": "v9.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "4ea3b276f706c900e3fccfa1db7742829ee9d5af"
+                "reference": "a5b4d56a40536fde50a72e20ce43abaa76f8de2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/4ea3b276f706c900e3fccfa1db7742829ee9d5af",
-                "reference": "4ea3b276f706c900e3fccfa1db7742829ee9d5af",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/a5b4d56a40536fde50a72e20ce43abaa76f8de2f",
+                "reference": "a5b4d56a40536fde50a72e20ce43abaa76f8de2f",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
-                "orchestra/sidekick": "~1.1.14|^1.2.10",
+                "orchestra/sidekick": "~1.1.20|~1.2.17",
                 "php": "^8.2",
                 "symfony/deprecation-contracts": "^2.5|^3.0",
                 "symfony/polyfill-php83": "^1.32"
@@ -4378,7 +4378,7 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2025-09-03T02:26:35+00:00"
+            "time": "2025-10-14T12:02:37+00:00"
         },
         {
             "name": "orchestra/workbench",
