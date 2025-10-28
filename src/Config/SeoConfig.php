@@ -63,7 +63,8 @@ class SeoConfig
                 'site_name' => '',
                 'separator' => ' | ',
                 'case' => 'title', // 'title', 'sentence', 'lower', 'upper'
-                'ai_prompt' => 'Generate an SEO-optimized title for this content. Keep it under 60 characters and make it compelling for search results.',
+                'ai_prompt' => 'Generate an SEO-optimized title for this content. '
+                    . 'Keep it under 60 characters and make it compelling for search results.',
             ],
 
             // Description generation settings
@@ -71,7 +72,8 @@ class SeoConfig
                 'max_length' => 160,
                 'min_length' => 120,
                 'pattern' => null,
-                'ai_prompt' => 'Generate an SEO-optimized meta description for this content. Keep it between 120-160 characters and make it compelling for search results.',
+                'ai_prompt' => 'Generate an SEO-optimized meta description for this content. '
+                    . 'Keep it between 120-160 characters and make it compelling for search results.',
             ],
 
             // Meta tags settings

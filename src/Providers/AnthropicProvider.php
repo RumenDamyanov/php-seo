@@ -153,7 +153,8 @@ class AnthropicProvider extends AbstractProvider
 
         try {
             $data = $this->formatRequest($prompt, [
-                'system_message' => 'You are an SEO expert. Generate concise, compelling page titles that are optimized for search engines and user engagement.',
+                'system_message' => 'You are an SEO expert. Generate concise, compelling page titles '
+                    . 'that are optimized for search engines and user engagement.',
                 'max_tokens' => 100,
                 'temperature' => 0.7,
             ]);
@@ -188,7 +189,8 @@ class AnthropicProvider extends AbstractProvider
 
         try {
             $data = $this->formatRequest($prompt, [
-                'system_message' => 'You are an SEO expert. Generate compelling meta descriptions that drive clicks and improve search visibility.',
+                'system_message' => 'You are an SEO expert. Generate compelling meta descriptions '
+                    . 'that drive clicks and improve search visibility.',
                 'max_tokens' => 150,
                 'temperature' => 0.7,
             ]);

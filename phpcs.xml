@@ -58,6 +58,11 @@
         <exclude-pattern>tests</exclude-pattern>
     </rule>
     
+    <!-- Allow mixing symbols and side effects in test files (Pest structure) -->
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+        <exclude-pattern>tests</exclude-pattern>
+    </rule>
+    
     <!-- Allow global keyword in test files for mocking -->
     <rule ref="Squiz.PHP.GlobalKeyword">
         <exclude-pattern>tests</exclude-pattern>
