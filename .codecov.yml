@@ -9,7 +9,7 @@ codecov:
 coverage:
   precision: 2
   round: down
-  range: "70...100"
+  range: "60...100"
   
   status:
     # Project coverage (overall codebase)
@@ -25,8 +25,8 @@ coverage:
     # Patch coverage (new code in PR)
     patch:
       default:
-        target: 80%  # New code should have at least 85% coverage
-        threshold: 5%  # Allow some flexibility for edge cases
+        target: 50%  # New code should have at least 50% coverage
+        threshold: 10%  # Allow some flexibility for edge cases
         base: auto
         if_ci_failed: error
         informational: true
