@@ -94,12 +94,6 @@ For security-related questions or concerns:
 - **GPG Key**: Available upon request
 - **Response Time**: Within 48 hours
 
-## Hall of Fame
-
-We recognize and thank security researchers who help keep php-seo secure:
-
-<!-- Security researchers who responsibly disclose vulnerabilities will be listed here -->
-
 ---
 
 Thank you for helping keep php-seo and our users safe!

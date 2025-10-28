@@ -36,7 +36,8 @@
 - **Type-safe**: Full PHP 8.2+ type declarations and strict types
 - **Extensible**: Plugin architecture for custom analyzers and generators
 - **High Performance**: Optimized for speed with caching and lazy loading
-- **100% Test Coverage**: Comprehensive test suite using Pest
+- **100% Test Pass Rate**: Comprehensive test suite with 405 passing tests using Pest
+- **Type-safe**: Full PHP 8.2+ type declarations and strict types
 
 ## 📖 Quick Links
 
@@ -411,7 +412,7 @@ foreach ($posts as $post) {
 ### Running Tests
 
 ```bash
-# Run all tests
+# Run all tests (405 tests, 1037 assertions - 100% passing! ✅)
 composer test
 
 # Run tests with coverage
@@ -422,7 +423,26 @@ composer test-coverage-html
 
 # Run specific test
 ./vendor/bin/pest tests/Unit/SeoManagerTest.php
+
+# Run specific test group
+./vendor/bin/pest --filter="OllamaProvider"
+
+# Run with verbose output
+./vendor/bin/pest --verbose
 ```
+
+### Test Coverage
+
+The package maintains **100% test pass rate** with comprehensive test coverage:
+
+- ✅ **405 passing tests** across all components
+- ✅ **1037 assertions** ensuring code quality
+- ✅ **Unit tests** for all core functionality
+- ✅ **Integration tests** for Laravel and Symfony
+- ✅ **AI Provider tests** for OpenAI, Anthropic, Google, xAI, and Ollama
+- ✅ **Generator tests** for titles, descriptions, and meta tags
+- ✅ **Analyzer tests** for content processing
+- ✅ **Validator tests** for response validation
 
 ### Code Quality
 
@@ -478,6 +498,27 @@ If you find this package helpful, consider:
 ## 🏆 About
 
 **php-seo** is created and maintained by [Rumen Damyanov](https://github.com/RumenDamyanov). It's inspired by the success of [php-sitemap](https://github.com/RumenDamyanov/php-sitemap) and aims to bring the same level of quality and ease-of-use to SEO optimization.
+
+### SEO Package Family
+
+This package is part of a multi-language SEO ecosystem:
+
+- **[@rumenx/seo](https://www.npmjs.com/package/@rumenx/seo)** - JavaScript/TypeScript SEO package for Node.js and browsers
+  - 📦 [NPM Package](https://www.npmjs.com/package/@rumenx/seo)
+  - 💻 [GitHub Repository](https://github.com/RumenDamyanov/npm-seo)
+  - ⚡ Framework-agnostic with React, Vue, Angular integrations
+  - 🚀 Works in both Node.js and browser environments
+
+- **php-seo** (this package) - PHP SEO package for Laravel, Symfony, and any PHP project
+  - 🐘 PHP 8.2+ with full type safety
+  - 🤖 AI-powered content generation
+  - 🏗️ Framework-agnostic with Laravel/Symfony integrations
+
+- **go-seo** (planned) - Go SEO package
+  - 🚀 High-performance SEO optimization for Go applications
+  - Coming soon!
+
+All packages share similar APIs and best practices, making it easy to work across different tech stacks.
 
 ### Related Projects
 
