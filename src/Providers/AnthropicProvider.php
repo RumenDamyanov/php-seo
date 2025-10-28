@@ -7,12 +7,12 @@ namespace Rumenx\PhpSeo\Providers;
 use Rumenx\PhpSeo\Exceptions\ProviderException;
 
 /**
- * OpenAI provider for AI-powered SEO generation.
+ * Anthropic (Claude) provider for AI-powered SEO generation.
  *
- * This provider integrates with OpenAI's API to generate SEO content
- * using GPT models for titles, descriptions, and meta tags.
+ * This provider integrates with Anthropic's Claude API to generate SEO content
+ * using Claude models for titles, descriptions, and meta tags.
  */
-class OpenAiProvider extends AbstractProvider
+class AnthropicProvider extends AbstractProvider
 {
     /**
      * {@inheritdoc}
@@ -20,13 +20,13 @@ class OpenAiProvider extends AbstractProvider
     public function generate(string $prompt, array $options = []): string
     {
         if (!$this->isAvailable()) {
-            throw new \RuntimeException('OpenAI provider is not properly configured. Missing API key.');
+            throw new \RuntimeException('Anthropic provider is not properly configured. Missing API key.');
         }
 
         try {
             $data = $this->formatRequest($prompt, $options);
             $headers = $this->buildHeaders();
-            $response = $this->makeHttpRequest('/chat/completions', $data, $headers);
+            $response = $this->makeHttpRequest('/messages', $data, $headers);
 
             return $this->parseResponse($response);
         } catch (ProviderException $e) {
@@ -41,7 +41,7 @@ class OpenAiProvider extends AbstractProvider
      */
     public function getName(): string
     {
-        return 'openai';
+        return 'anthropic';
     }
 
     /**
@@ -50,11 +50,11 @@ class OpenAiProvider extends AbstractProvider
     public function getSupportedModels(): array
     {
         return [
-            'gpt-3.5-turbo',
-            'gpt-4',
-            'gpt-4-turbo',
-            'gpt-4o',
-            'gpt-4o-mini',
+            'claude-3-5-sonnet-20241022',
+            'claude-3-5-haiku-20241022',
+            'claude-3-opus-20240229',
+            'claude-3-sonnet-20240229',
+            'claude-3-haiku-20240307',
         ];
     }
 
@@ -79,7 +79,7 @@ class OpenAiProvider extends AbstractProvider
      */
     protected function getDefaultModel(): string
     {
-        return 'gpt-3.5-turbo';
+        return 'claude-3-5-sonnet-20241022';
     }
 
     /**
@@ -87,7 +87,7 @@ class OpenAiProvider extends AbstractProvider
      */
     protected function getDefaultBaseUrl(): string
     {
-        return 'https://api.openai.com/v1';
+        return 'https://api.anthropic.com/v1';
     }
 
     /**
@@ -96,7 +96,8 @@ class OpenAiProvider extends AbstractProvider
     protected function buildHeaders(): array
     {
         return [
-            'Authorization: Bearer ' . $this->apiKey,
+            'x-api-key: ' . $this->apiKey,
+            'anthropic-version: 2023-06-01',
         ];
     }
 
@@ -107,17 +108,14 @@ class OpenAiProvider extends AbstractProvider
     {
         return [
             'model' => $this->model,
+            'max_tokens' => $options['max_tokens'] ?? 1024,
             'messages' => [
-                [
-                    'role' => 'system',
-                    'content' => $options['system_message'] ?? 'You are an SEO expert. Generate high-quality, optimized content.',
-                ],
                 [
                     'role' => 'user',
                     'content' => $prompt,
                 ],
             ],
-            'max_tokens' => $options['max_tokens'] ?? 150,
+            'system' => $options['system_message'] ?? 'You are an SEO expert. Generate high-quality, optimized content.',
             'temperature' => $options['temperature'] ?? 0.7,
         ];
     }
@@ -127,35 +125,41 @@ class OpenAiProvider extends AbstractProvider
      */
     protected function parseResponse(array $response): string
     {
-        if (!isset($response['choices'][0]['message']['content'])) {
+        if (!isset($response['content'][0]['text'])) {
             throw ProviderException::apiError(
                 $this->getName(),
-                'Invalid response structure: missing content'
+                'Invalid response structure: missing content text'
             );
         }
 
-        return trim($response['choices'][0]['message']['content']);
+        return trim($response['content'][0]['text']);
     }
 
     /**
-     * {@inheritdoc}
+     * Generate an SEO-optimized title using AI.
+     *
+     * @param array<string, mixed> $analysis Content analysis data
+     * @param array<string, mixed> $options Additional options
+     * @return string The generated title
+     * @throws \RuntimeException
      */
     public function generateTitle(array $analysis, array $options = []): string
     {
         if (!$this->isAvailable()) {
-            throw new \RuntimeException('OpenAI provider is not properly configured. Missing API key.');
+            throw new \RuntimeException('Anthropic provider is not properly configured. Missing API key.');
         }
 
         $prompt = $this->buildTitlePrompt($analysis, $options);
 
         try {
             $data = $this->formatRequest($prompt, [
-                'system_message' => 'You are an SEO expert. Generate concise, compelling page titles.',
+                'system_message' => 'You are an SEO expert. Generate concise, compelling page titles '
+                    . 'that are optimized for search engines and user engagement.',
                 'max_tokens' => 100,
                 'temperature' => 0.7,
             ]);
             $headers = $this->buildHeaders();
-            $response = $this->makeHttpRequest('/chat/completions', $data, $headers);
+            $response = $this->makeHttpRequest('/messages', $data, $headers);
 
             return $this->parseResponse($response);
         } catch (\Exception $e) {
@@ -168,24 +172,30 @@ class OpenAiProvider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
+     * Generate an SEO-optimized description using AI.
+     *
+     * @param array<string, mixed> $analysis Content analysis data
+     * @param array<string, mixed> $options Additional options
+     * @return string The generated description
+     * @throws \RuntimeException
      */
     public function generateDescription(array $analysis, array $options = []): string
     {
         if (!$this->isAvailable()) {
-            throw new \RuntimeException('OpenAI provider is not properly configured. Missing API key.');
+            throw new \RuntimeException('Anthropic provider is not properly configured. Missing API key.');
         }
 
         $prompt = $this->buildDescriptionPrompt($analysis, $options);
 
         try {
             $data = $this->formatRequest($prompt, [
-                'system_message' => 'You are an SEO expert. Generate compelling meta descriptions.',
+                'system_message' => 'You are an SEO expert. Generate compelling meta descriptions '
+                    . 'that drive clicks and improve search visibility.',
                 'max_tokens' => 150,
                 'temperature' => 0.7,
             ]);
             $headers = $this->buildHeaders();
-            $response = $this->makeHttpRequest('/chat/completions', $data, $headers);
+            $response = $this->makeHttpRequest('/messages', $data, $headers);
 
             return $this->parseResponse($response);
         } catch (\Exception $e) {
@@ -198,24 +208,29 @@ class OpenAiProvider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
+     * Generate SEO keywords using AI.
+     *
+     * @param array<string, mixed> $analysis Content analysis data
+     * @param array<string, mixed> $options Additional options
+     * @return array<string> The generated keywords
+     * @throws \RuntimeException
      */
     public function generateKeywords(array $analysis, array $options = []): array
     {
         if (!$this->isAvailable()) {
-            throw new \RuntimeException('OpenAI provider is not properly configured. Missing API key.');
+            throw new \RuntimeException('Anthropic provider is not properly configured. Missing API key.');
         }
 
         $prompt = $this->buildKeywordsPrompt($analysis, $options);
 
         try {
             $data = $this->formatRequest($prompt, [
-                'system_message' => 'You are an SEO expert. Generate relevant keywords.',
+                'system_message' => 'You are an SEO expert. Generate relevant, high-impact keywords.',
                 'max_tokens' => 100,
                 'temperature' => 0.5,
             ]);
             $headers = $this->buildHeaders();
-            $response = $this->makeHttpRequest('/chat/completions', $data, $headers);
+            $response = $this->makeHttpRequest('/messages', $data, $headers);
 
             $content = $this->parseResponse($response);
             $keywords = array_map('trim', explode(',', $content));
@@ -232,117 +247,83 @@ class OpenAiProvider extends AbstractProvider
 
     /**
      * Build the prompt for title generation.
-     *
-     * @param array<string, mixed> $analysis
-     * @param array<string, mixed> $options
-     * @return string
      */
     private function buildTitlePrompt(array $analysis, array $options): string
     {
-        $prompt = "Generate an SEO-optimized title for this content:\n\n";
+        $prompt = "Generate an SEO-optimized page title for this content:\n\n";
 
         if (!empty($analysis['summary'])) {
-            $prompt .= "Content Summary: {$analysis['summary']}\n";
+            $prompt .= "Summary: {$analysis['summary']}\n";
         }
 
-        if (!empty($analysis['headings'])) {
-            $headings = array_slice($analysis['headings'], 0, 3);
-            $headingTexts = array_map(fn ($h) => $h['text'], $headings);
-            $prompt .= "Main Headings: " . implode(', ', $headingTexts) . "\n";
+        if (!empty($analysis['main_content'])) {
+            $prompt .= "Content: " . substr($analysis['main_content'], 0, 300) . "...\n";
         }
 
-        if (!empty($analysis['keywords'])) {
-            $keywords = array_slice($analysis['keywords'], 0, 5);
-            $prompt .= "Key Terms: " . implode(', ', $keywords) . "\n";
-        }
-
-        $maxLength = $options['max_length'] ?? $this->config->get('generation.title.max_length', 60);
-        $prompt .= "\nGenerate a title that is compelling, descriptive, and under {$maxLength} characters.";
+        $maxLength = $options['max_length'] ?? $this->config->get('title.max_length', 60);
+        $prompt .= "\nKeep it under {$maxLength} characters. Return only the title, nothing else.";
 
         return $prompt;
     }
 
     /**
      * Build the prompt for description generation.
-     *
-     * @param array<string, mixed> $analysis
-     * @param array<string, mixed> $options
-     * @return string
      */
     private function buildDescriptionPrompt(array $analysis, array $options): string
     {
-        $prompt = "Generate an SEO-optimized meta description for this content:\n\n";
+        $prompt = "Generate an SEO-optimized meta description:\n\n";
 
         if (!empty($analysis['summary'])) {
-            $prompt .= "Content Summary: {$analysis['summary']}\n";
+            $prompt .= "Summary: {$analysis['summary']}\n";
         }
 
         if (!empty($analysis['main_content'])) {
-            $content = substr($analysis['main_content'], 0, 500);
-            $prompt .= "Content Preview: {$content}...\n";
+            $prompt .= "Content: " . substr($analysis['main_content'], 0, 300) . "...\n";
         }
 
-        if (!empty($analysis['keywords'])) {
-            $keywords = array_slice($analysis['keywords'], 0, 5);
-            $prompt .= "Key Terms: " . implode(', ', $keywords) . "\n";
-        }
-
-        $maxLength = $options['max_length'] ?? $this->config->get('generation.description.max_length', 160);
-        $prompt .= "\nGenerate a meta description that is engaging, informative, and between 150-{$maxLength} characters.";
+        $maxLength = $options['max_length'] ?? $this->config->get('description.max_length', 160);
+        $prompt .= "\nBetween 120-{$maxLength} characters. Return only the description, nothing else.";
 
         return $prompt;
     }
 
     /**
      * Build the prompt for keywords generation.
-     *
-     * @param array<string, mixed> $analysis
-     * @param array<string, mixed> $options
-     * @return string
      */
     private function buildKeywordsPrompt(array $analysis, array $options): string
     {
-        $prompt = "Generate relevant SEO keywords for this content:\n\n";
+        $prompt = "Generate SEO keywords as comma-separated list:\n\n";
 
         if (!empty($analysis['summary'])) {
-            $prompt .= "Content Summary: {$analysis['summary']}\n";
+            $prompt .= "Summary: {$analysis['summary']}\n";
         }
 
-        if (!empty($analysis['main_content'])) {
-            $content = substr($analysis['main_content'], 0, 300);
-            $prompt .= "Content Preview: {$content}...\n";
-        }
-
-        $maxKeywords = $options['max_keywords'] ?? $this->config->get('generation.keywords.max_count', 10);
-        $prompt .= "\nGenerate up to {$maxKeywords} relevant keywords as a comma-separated list.";
+        $maxKeywords = $options['max_keywords'] ?? $this->config->get('meta_tags.keywords_max', 10);
+        $prompt .= "\nMax {$maxKeywords} keywords. Return only the comma-separated list, nothing else.";
 
         return $prompt;
     }
 
     /**
-     * Generate a fallback title when AI fails.
-     *
-     * @param array<string, mixed> $analysis
-     * @return string
+     * Generate fallback title.
      */
     private function generateFallbackTitle(array $analysis): string
     {
-        if (!empty($analysis['headings'])) {
-            return $analysis['headings'][0]['text'];
+        if (!empty($analysis['headings']['h1'][0])) {
+            return $analysis['headings']['h1'][0];
         }
 
         if (!empty($analysis['summary'])) {
-            return substr($analysis['summary'], 0, 60);
+            $words = explode(' ', $analysis['summary']);
+
+            return implode(' ', array_slice($words, 0, 10));
         }
 
-        return 'Untitled Page';
+        return 'Page Title';
     }
 
     /**
-     * Generate a fallback description when AI fails.
-     *
-     * @param array<string, mixed> $analysis
-     * @return string
+     * Generate fallback description.
      */
     private function generateFallbackDescription(array $analysis): string
     {
@@ -351,9 +332,9 @@ class OpenAiProvider extends AbstractProvider
         }
 
         if (!empty($analysis['main_content'])) {
-            return substr($analysis['main_content'], 0, 160);
+            return substr(strip_tags($analysis['main_content']), 0, 160);
         }
 
-        return 'No description available.';
+        return 'Page description';
     }
 }

@@ -119,7 +119,7 @@ test('DescriptionGenerator AI fallback when no content available', function () {
 
     $description = $generator->generate($pageData);
 
-    expect($description)->toContain('AI-generated description will be available soon');
+    expect($description)->toContain('Description will be available soon');
 });
 
 test('DescriptionGenerator extracts from main content when available', function () {

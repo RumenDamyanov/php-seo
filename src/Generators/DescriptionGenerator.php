@@ -6,6 +6,7 @@ namespace Rumenx\PhpSeo\Generators;
 
 use Rumenx\PhpSeo\Config\SeoConfig;
 use Rumenx\PhpSeo\Contracts\GeneratorInterface;
+use Rumenx\PhpSeo\Providers\ProviderRegistry;
 
 /**
  * Description generator for creating SEO-optimized meta descriptions.
@@ -16,10 +17,12 @@ use Rumenx\PhpSeo\Contracts\GeneratorInterface;
 class DescriptionGenerator implements GeneratorInterface
 {
     private SeoConfig $config;
+    private ?ProviderRegistry $providerRegistry;
 
-    public function __construct(SeoConfig $config)
+    public function __construct(SeoConfig $config, ?ProviderRegistry $providerRegistry = null)
     {
         $this->config = $config;
+        $this->providerRegistry = $providerRegistry;
     }
 
     /**
@@ -215,13 +218,49 @@ class DescriptionGenerator implements GeneratorInterface
      */
     private function generateWithAi(array $pageData): string
     {
-        // For now, return a processed version of content - AI integration will be implemented later
+        // Check if provider registry is available
+        if ($this->providerRegistry === null || !$this->providerRegistry->hasAvailableProvider()) {
+            // Fallback to manual generation
+            return $this->generateFallbackDescription($pageData);
+        }
+
+        try {
+            // Prepare analysis data for the provider
+            $analysis = [
+                'summary' => $pageData['summary'] ?? '',
+                'main_content' => $pageData['main_content'] ?? '',
+                'headings' => $pageData['headings'] ?? [],
+                'keywords' => $pageData['keywords'] ?? [],
+            ];
+
+            // Use provider registry with fallback support
+            $description = $this->providerRegistry->generateDescriptionWithFallback($analysis);
+
+            return $this->processDescription($description);
+        } catch (\Exception $e) {
+            // If AI generation fails, fallback to manual generation
+            if ($this->config->get('ai.fallback_enabled', true)) {
+                return $this->generateFallbackDescription($pageData);
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Generate fallback description when AI is not available.
+     *
+     * @param array<string, mixed> $pageData
+     * @return string
+     */
+    private function generateFallbackDescription(array $pageData): string
+    {
         $content = $pageData['main_content'] ?? $pageData['summary'] ?? '';
 
         if ($content) {
             return $this->extractDescriptionFromContent($content);
         }
 
-        return $this->processDescription('AI-generated description will be available soon.');
+        return $this->processDescription('Description will be available soon.');
     }
 }

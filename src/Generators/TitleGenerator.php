@@ -6,6 +6,7 @@ namespace Rumenx\PhpSeo\Generators;
 
 use Rumenx\PhpSeo\Config\SeoConfig;
 use Rumenx\PhpSeo\Contracts\GeneratorInterface;
+use Rumenx\PhpSeo\Providers\ProviderRegistry;
 
 /**
  * Title generator for creating SEO-optimized page titles.
@@ -16,10 +17,12 @@ use Rumenx\PhpSeo\Contracts\GeneratorInterface;
 class TitleGenerator implements GeneratorInterface
 {
     private SeoConfig $config;
+    private ?ProviderRegistry $providerRegistry;
 
-    public function __construct(SeoConfig $config)
+    public function __construct(SeoConfig $config, ?ProviderRegistry $providerRegistry = null)
     {
         $this->config = $config;
+        $this->providerRegistry = $providerRegistry;
     }
 
     /**
@@ -252,11 +255,47 @@ class TitleGenerator implements GeneratorInterface
      */
     private function generateWithAi(array $pageData): string
     {
-        // For now, return a placeholder - AI integration will be implemented later
+        // Check if provider registry is available
+        if ($this->providerRegistry === null || !$this->providerRegistry->hasAvailableProvider()) {
+            // Fallback to manual generation
+            return $this->generateFallbackTitle($pageData);
+        }
+
+        try {
+            // Prepare analysis data for the provider
+            $analysis = [
+                'summary' => $pageData['summary'] ?? '',
+                'main_content' => $pageData['main_content'] ?? '',
+                'headings' => $pageData['headings'] ?? [],
+                'keywords' => $pageData['keywords'] ?? [],
+            ];
+
+            // Use provider registry with fallback support
+            $title = $this->providerRegistry->generateTitleWithFallback($analysis);
+
+            return $this->processTitle($title, $pageData);
+        } catch (\Exception $e) {
+            // If AI generation fails, fallback to manual generation
+            if ($this->config->get('ai.fallback_enabled', true)) {
+                return $this->generateFallbackTitle($pageData);
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Generate fallback title when AI is not available.
+     *
+     * @param array<string, mixed> $pageData
+     * @return string
+     */
+    private function generateFallbackTitle(array $pageData): string
+    {
         $content = $pageData['main_content'] ?? $pageData['summary'] ?? '';
         $words = explode(' ', trim(strip_tags($content)));
         $title = implode(' ', array_slice($words, 0, 6));
 
-        return $this->processTitle($title ?: 'AI Generated Title', $pageData);
+        return $this->processTitle($title ?: 'Generated Title', $pageData);
     }
 }

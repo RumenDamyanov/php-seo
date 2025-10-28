@@ -369,7 +369,7 @@ test('TitleGenerator AI fallback when no content available', function () {
 
     $title = $generator->generate($pageData);
 
-    expect($title)->toBe('Ai Generated Title'); // Title case transformation applied
+    expect($title)->toBe('Generated Title'); // Default fallback title
 });
 
 test('TitleGenerator handles already optimal length title', function () {

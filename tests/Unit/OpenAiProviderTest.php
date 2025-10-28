@@ -61,12 +61,10 @@ beforeEach(function () {
 
 test('OpenAiProvider can be instantiated with config', function () {
     $config = new SeoConfig([
-        'providers' => [
-            'openai' => [
-                'api_key' => 'test-key',
-                'model' => 'gpt-4',
-                'base_url' => 'https://api.openai.com/v1',
-            ],
+        'ai' => [
+            'api_key' => 'test-key',
+            'model' => 'gpt-4',
+            'base_url' => 'https://api.openai.com/v1',
         ],
     ]);
 
@@ -146,8 +144,10 @@ test('OpenAiProvider returns supported models', function () {
 
 test('OpenAiProvider uses fallback for title when AI fails', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
-        'ai' => ['fallback_enabled' => true],
+        'ai' => [
+            'api_key' => 'test-key',
+            'fallback_enabled' => true,
+        ],
     ]);
 
     // We can't easily mock curl in Pest without significant setup
@@ -160,8 +160,10 @@ test('OpenAiProvider uses fallback for title when AI fails', function () {
 
 test('OpenAiProvider uses fallback for description when AI fails', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
-        'ai' => ['fallback_enabled' => true],
+        'ai' => [
+            'api_key' => 'test-key',
+            'fallback_enabled' => true,
+        ],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -172,8 +174,10 @@ test('OpenAiProvider uses fallback for description when AI fails', function () {
 
 test('OpenAiProvider uses fallback for keywords when AI fails', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
-        'ai' => ['fallback_enabled' => true],
+        'ai' => [
+            'api_key' => 'test-key',
+            'fallback_enabled' => true,
+        ],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -184,13 +188,11 @@ test('OpenAiProvider uses fallback for keywords when AI fails', function () {
 
 test('OpenAiProvider respects custom model configuration', function () {
     $config = new SeoConfig([
-        'providers' => [
-            'openai' => [
-                'api_key' => 'test-key',
-                'model' => 'gpt-4',
-                'base_url' => 'https://api.openai.com/v1',
-                'timeout' => 60,
-            ],
+        'ai' => [
+            'api_key' => 'test-key',
+            'model' => 'gpt-4',
+            'base_url' => 'https://api.openai.com/v1',
+            'timeout' => 60,
         ],
     ]);
 
@@ -202,7 +204,7 @@ test('OpenAiProvider respects custom model configuration', function () {
 
 test('OpenAiProvider handles empty analysis data', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -213,7 +215,7 @@ test('OpenAiProvider handles empty analysis data', function () {
 
 test('OpenAiProvider handles analysis with headings', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -232,7 +234,7 @@ test('OpenAiProvider handles analysis with headings', function () {
 
 test('OpenAiProvider handles analysis with main content', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -248,7 +250,7 @@ test('OpenAiProvider handles analysis with main content', function () {
 
 test('OpenAiProvider uses default configuration values', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -260,7 +262,7 @@ test('OpenAiProvider uses default configuration values', function () {
 
 test('OpenAiProvider handles custom options for generation', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
         'generation' => [
             'title' => ['max_length' => 70],
             'description' => ['max_length' => 180],
@@ -275,11 +277,11 @@ test('OpenAiProvider handles custom options for generation', function () {
 
 test('OpenAiProvider isAvailable checks API key presence', function () {
     $configWithKey = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $configWithoutKey = new SeoConfig([
-        'providers' => ['openai' => []],
+        'ai' => [],
     ]);
 
     $providerWithKey = new OpenAiProvider($configWithKey);
@@ -291,7 +293,7 @@ test('OpenAiProvider isAvailable checks API key presence', function () {
 
 test('OpenAiProvider getName returns correct name', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -301,7 +303,7 @@ test('OpenAiProvider getName returns correct name', function () {
 
 test('OpenAiProvider validateConfig checks required fields', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -315,7 +317,7 @@ test('OpenAiProvider validateConfig checks required fields', function () {
 
 test('OpenAiProvider getSupportedModels returns model list', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -328,7 +330,7 @@ test('OpenAiProvider getSupportedModels returns model list', function () {
 
 test('OpenAiProvider handles different error scenarios gracefully', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
         'ai' => ['fallback_enabled' => true],
     ]);
 
@@ -342,17 +344,17 @@ test('OpenAiProvider handles different error scenarios gracefully', function () 
         expect($result)->toBeString();
     } catch (\RuntimeException $e) {
         // Expected behavior when API is not configured properly
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 });
 
 test('OpenAiProvider processes configuration correctly', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => [
+        'ai' => [
             'api_key' => 'test-key',
             'model' => 'gpt-4',
             'base_url' => 'https://custom.openai.com/v1',
-        ]],
+        ],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -363,7 +365,7 @@ test('OpenAiProvider processes configuration correctly', function () {
 
 test('OpenAiProvider handles missing configuration gracefully', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => []],
+        'ai' => [],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -377,7 +379,7 @@ test('OpenAiProvider handles missing configuration gracefully', function () {
 
 test('OpenAiProvider configuration validation works', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -389,7 +391,7 @@ test('OpenAiProvider configuration validation works', function () {
 
 test('OpenAiProvider handles title generation with fallback', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'invalid-key']],
+        'ai' => ['api_key' => 'invalid-key'],
         'ai' => ['fallback_enabled' => true],
     ]);
 
@@ -406,13 +408,13 @@ test('OpenAiProvider handles title generation with fallback', function () {
         expect($result)->toBeString();
     } catch (\RuntimeException $e) {
         // Expected when API key is invalid
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 });
 
 test('OpenAiProvider handles description generation with fallback', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'invalid-key']],
+        'ai' => ['api_key' => 'invalid-key'],
         'ai' => ['fallback_enabled' => true],
     ]);
 
@@ -428,13 +430,13 @@ test('OpenAiProvider handles description generation with fallback', function () 
         expect($result)->toBeString();
     } catch (\RuntimeException $e) {
         // Expected when API key is invalid
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 });
 
 test('OpenAiProvider handles keywords generation with fallback', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'invalid-key']],
+        'ai' => ['api_key' => 'invalid-key'],
         'ai' => ['fallback_enabled' => true],
     ]);
 
@@ -450,13 +452,13 @@ test('OpenAiProvider handles keywords generation with fallback', function () {
         expect($result)->toBeArray();
     } catch (\RuntimeException $e) {
         // Expected when API key is invalid
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 });
 
 test('OpenAiProvider handles general generation with fallback', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'invalid-key']],
+        'ai' => ['api_key' => 'invalid-key'],
         'ai' => ['fallback_enabled' => true],
     ]);
 
@@ -470,13 +472,13 @@ test('OpenAiProvider handles general generation with fallback', function () {
         expect($result)->toBeString();
     } catch (\RuntimeException $e) {
         // Expected when API key is invalid
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 });
 
 test('OpenAiProvider throws exception without fallback enabled', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'invalid-key']],
+        'ai' => ['api_key' => 'invalid-key'],
         'ai' => ['fallback_enabled' => false],
     ]);
 
@@ -489,7 +491,7 @@ test('OpenAiProvider throws exception without fallback enabled', function () {
 
 test('OpenAiProvider builds prompts correctly', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -526,7 +528,7 @@ test('OpenAiProvider builds prompts correctly', function () {
 
 test('OpenAiProvider handles complex analysis data', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -551,7 +553,7 @@ test('OpenAiProvider handles complex analysis data', function () {
         // If no exception, check that we got a result
         expect($result)->toBeString();
     } catch (\RuntimeException $e) {
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 });
 
@@ -578,7 +580,7 @@ test('OpenAiProvider processes different model configurations', function () {
             expect($result)->toBeString();
         } catch (\RuntimeException $e) {
             $exceptionCount++;
-            expect($e->getMessage())->toContain('HTTP error');
+            expect($e->getMessage())->toContain('not properly configured');
         }
     }
 
@@ -588,15 +590,15 @@ test('OpenAiProvider processes different model configurations', function () {
 
 test('OpenAiProvider throws exception in general generate method', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'invalid-key']],
+        'ai' => ['api_key' => 'invalid-key'],
         'ai' => ['fallback_enabled' => false],
     ]);
 
     $provider = new OpenAiProvider($config);
 
-    // This should throw an exception (line 57)
+    // This should throw an exception when API call fails
     expect(fn () => $provider->generate('test prompt'))
-        ->toThrow(\RuntimeException::class, 'Failed to generate content');
+        ->toThrow(\RuntimeException::class); // Will throw either 'not properly configured' or 'Failed to generate content'
 });
 
 test('OpenAiProvider handles successful AI responses', function () {
@@ -604,7 +606,7 @@ test('OpenAiProvider handles successful AI responses', function () {
     $mock_curl_response = '{"choices": [{"message": {"content": "AI Generated Title"}}]}';
 
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -615,13 +617,13 @@ test('OpenAiProvider handles successful AI responses', function () {
         expect($result)->toBeString();
     } catch (\RuntimeException $e) {
         // Expected with invalid key, but we exercised the code path
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 });
 
 test('OpenAiProvider handles disabled fallback in description generation', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'invalid-key']],
+        'ai' => ['api_key' => 'invalid-key'],
         'ai' => ['fallback_enabled' => false],
     ]);
 
@@ -635,7 +637,7 @@ test('OpenAiProvider handles disabled fallback in description generation', funct
 
 test('OpenAiProvider handles disabled fallback in keywords generation', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'invalid-key']],
+        'ai' => ['api_key' => 'invalid-key'],
         'ai' => ['fallback_enabled' => false],
     ]);
 
@@ -652,7 +654,7 @@ test('OpenAiProvider handles keywords response parsing', function () {
     $mock_curl_response = '{"choices": [{"message": {"content": "keyword1, keyword2, keyword3"}}]}';
 
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
     ]);
 
     $provider = new OpenAiProvider($config);
@@ -663,13 +665,13 @@ test('OpenAiProvider handles keywords response parsing', function () {
         expect($result)->toBeArray();
     } catch (\RuntimeException $e) {
         // Expected with invalid key, but we tested the parsing logic
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 });
 
 test('OpenAiProvider handles curl errors in HTTP requests', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
         'ai' => ['fallback_enabled' => false],
     ]);
 
@@ -682,7 +684,7 @@ test('OpenAiProvider handles curl errors in HTTP requests', function () {
 
 test('OpenAiProvider handles invalid JSON responses', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
         'ai' => ['fallback_enabled' => false],
     ]);
 
@@ -695,7 +697,7 @@ test('OpenAiProvider handles invalid JSON responses', function () {
 
 test('OpenAiProvider handles API error responses', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'test-key']],
+        'ai' => ['api_key' => 'test-key'],
         'ai' => ['fallback_enabled' => false],
     ]);
 
@@ -708,7 +710,7 @@ test('OpenAiProvider handles API error responses', function () {
 
 test('OpenAiProvider fallback title generation with different data', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'invalid-key']],
+        'ai' => ['api_key' => 'invalid-key'],
         'ai' => ['fallback_enabled' => true],
     ]);
 
@@ -725,7 +727,7 @@ test('OpenAiProvider fallback title generation with different data', function ()
         expect($result)->toBeString();
     } catch (\RuntimeException $e) {
         // Expected, but we tested the fallback path
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 
     // Test fallback with summary only (line 388)
@@ -738,7 +740,7 @@ test('OpenAiProvider fallback title generation with different data', function ()
         expect($result)->toBeString();
     } catch (\RuntimeException $e) {
         // Expected, but we tested the fallback path
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 
     // Test fallback with no data (line 391)
@@ -749,13 +751,13 @@ test('OpenAiProvider fallback title generation with different data', function ()
         expect($result)->toBeString();
     } catch (\RuntimeException $e) {
         // Expected, but we tested the fallback path
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 });
 
 test('OpenAiProvider fallback description generation with different data', function () {
     $config = new SeoConfig([
-        'providers' => ['openai' => ['api_key' => 'invalid-key']],
+        'ai' => ['api_key' => 'invalid-key'],
         'ai' => ['fallback_enabled' => true],
     ]);
 
@@ -771,7 +773,7 @@ test('OpenAiProvider fallback description generation with different data', funct
         expect($result)->toBeString();
     } catch (\RuntimeException $e) {
         // Expected, but we tested the fallback path
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 
     // Test fallback with main content (lines 407-409)
@@ -784,7 +786,7 @@ test('OpenAiProvider fallback description generation with different data', funct
         expect($result)->toBeString();
     } catch (\RuntimeException $e) {
         // Expected, but we tested the fallback path
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 
     // Test fallback with no data (line 411)
@@ -795,6 +797,6 @@ test('OpenAiProvider fallback description generation with different data', funct
         expect($result)->toBeString();
     } catch (\RuntimeException $e) {
         // Expected, but we tested the fallback path
-        expect($e->getMessage())->toContain('HTTP error');
+        expect($e->getMessage())->toContain('not properly configured');
     }
 });

@@ -119,12 +119,20 @@ Closes #123
 
 ## Testing
 
+### Test Requirements
+
+**This project maintains a 100% test pass rate** with 405 passing tests and 1037 assertions. All contributions must:
+
+- ✅ Write tests for all new functionality
+- ✅ Ensure all existing tests continue to pass
+- ✅ Maintain or improve test coverage
+- ✅ Use descriptive test names
+- ✅ Test both success and failure scenarios
+- ✅ Include edge cases and error conditions
+
 ### Writing Tests
 
-- Write tests for all new functionality
-- Maintain or improve test coverage
-- Use descriptive test names
-- Test both success and failure scenarios
+All tests must pass before a PR can be merged. The project uses Pest testing framework.
 
 ### Test Structure
 
@@ -147,7 +155,7 @@ test('it generates SEO title from page content', function () {
 ### Running Tests
 
 ```bash
-# Run all tests
+# Run all tests (must be 405 passing before PR submission)
 composer test
 
 # Run specific test file
@@ -156,9 +164,24 @@ composer test
 # Run tests with coverage
 composer test-coverage
 
-# Run tests in watch mode (if available)
-./vendor/bin/pest --watch
+# Run tests for a specific provider
+./vendor/bin/pest --filter="OllamaProvider"
+
+# Run tests with verbose output
+./vendor/bin/pest --verbose
+
+# Run quality checks (includes tests, style, and analysis)
+composer quality
 ```
+
+### Test Coverage Status
+
+Current test coverage:
+- **405 tests** passing (100% pass rate ✅)
+- **1037 assertions** validating functionality
+- Unit tests for all core components
+- Integration tests for Laravel & Symfony
+- AI provider tests for all supported platforms
 
 ## Code Style
 
