@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rumenx\PhpSeo\Config\SeoConfig;
+use Rumenx\PhpSeo\Contracts\ProviderInterface;
 use Rumenx\PhpSeo\Providers\AnthropicProvider;
 use Rumenx\PhpSeo\Providers\GoogleProvider;
 use Rumenx\PhpSeo\Providers\OllamaProvider;
@@ -244,4 +245,37 @@ test('ProviderFactory isProviderAvailable is case-insensitive', function () {
     expect($factory->isProviderAvailable('OpenAI'))->toBeTrue()
         ->and($factory->isProviderAvailable('OPENAI'))->toBeTrue()
         ->and($factory->isProviderAvailable('openai'))->toBeTrue();
+});
+
+test('ProviderFactory getSupportedProviders returns all provider names', function () {
+    $config = new SeoConfig([
+        'ai' => ['api_key' => 'test-key'],
+    ]);
+
+    $factory = new ProviderFactory($config);
+    $providers = $factory->getSupportedProviders();
+
+    expect($providers)->toBeArray()
+        ->and($providers)->toContain('openai')
+        ->and($providers)->toContain('anthropic')
+        ->and($providers)->toContain('google')
+        ->and($providers)->toContain('xai')
+        ->and($providers)->toContain('ollama');
+});
+
+test('ProviderFactory getAvailableProviders returns only available provider names', function () {
+    $config = new SeoConfig([
+        'ai' => ['api_key' => 'test-key'],
+    ]);
+
+    $factory = new ProviderFactory($config);
+    $availableProviders = $factory->getAvailableProviders();
+
+    expect($availableProviders)->toBeArray();
+
+    // Each name in the available list should correspond to an available provider
+    foreach ($availableProviders as $providerName) {
+        expect($providerName)->toBeString()
+            ->and($factory->isProviderAvailable($providerName))->toBeTrue();
+    }
 });

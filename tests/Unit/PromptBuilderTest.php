@@ -283,3 +283,23 @@ test('PromptBuilder handles max_count for keywords', function () {
 
     expect($prompt)->toContain('15');
 });
+
+test('PromptBuilder handles custom options for max_length', function () {
+    $config = new SeoConfig();
+    $builder = new PromptBuilder($config);
+    $analysis = ['summary' => 'Test'];
+
+    $prompt = $builder->buildTitlePrompt($analysis, ['max_length' => 80]);
+
+    expect($prompt)->toContain('80');
+});
+
+test('PromptBuilder handles custom options for min_length', function () {
+    $config = new SeoConfig();
+    $builder = new PromptBuilder($config);
+    $analysis = ['summary' => 'Test'];
+
+    $prompt = $builder->buildDescriptionPrompt($analysis, ['min_length' => 100]);
+
+    expect($prompt)->toContain('100');
+});
