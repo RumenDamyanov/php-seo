@@ -12,6 +12,8 @@ use Rumenx\PhpSeo\SeoManager;
 
 class SeoMiddlewareTest extends TestCase
 {
+    protected static $latestResponse;
+
     protected function getPackageProviders($app)
     {
         return [
