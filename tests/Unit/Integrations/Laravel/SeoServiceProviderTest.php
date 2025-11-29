@@ -11,6 +11,8 @@ use Rumenx\PhpSeo\SeoManager;
 
 class SeoServiceProviderTest extends TestCase
 {
+    protected static $latestResponse;
+
     protected function getPackageProviders($app)
     {
         return [
