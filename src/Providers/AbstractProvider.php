@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Rumenx\PhpSeo\Providers;
 
+use Rumenx\PhpSeo\Cache\SeoCache;
 use Rumenx\PhpSeo\Config\SeoConfig;
 use Rumenx\PhpSeo\Contracts\ProviderInterface;
 use Rumenx\PhpSeo\Exceptions\ProviderException;
+use Rumenx\PhpSeo\RateLimiting\RateLimiter;
 
 /**
  * Abstract base class for AI providers.
@@ -22,15 +24,24 @@ abstract class AbstractProvider implements ProviderInterface
     protected string $baseUrl;
     protected int $timeout;
     protected int $maxRetries;
+    protected ?SeoCache $cache = null;
+    protected ?RateLimiter $rateLimiter = null;
 
     /**
      * Create a new provider instance.
      *
      * @param SeoConfig $config
+     * @param SeoCache|null $cache Optional cache instance
+     * @param RateLimiter|null $rateLimiter Optional rate limiter instance
      */
-    public function __construct(SeoConfig $config)
-    {
+    public function __construct(
+        SeoConfig $config,
+        ?SeoCache $cache = null,
+        ?RateLimiter $rateLimiter = null
+    ) {
         $this->config = $config;
+        $this->cache = $cache;
+        $this->rateLimiter = $rateLimiter;
         $this->apiKey = $this->getConfigValue('api_key');
         $this->model = $this->getConfigValue('model', $this->getDefaultModel());
         $this->baseUrl = $this->getConfigValue('base_url', $this->getDefaultBaseUrl());
@@ -55,7 +66,7 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * Make an HTTP request to the provider API with retry logic.
+     * Make an HTTP request to the provider API with retry logic and rate limiting.
      *
      * @param string $endpoint The API endpoint
      * @param array<string, mixed> $data The request data
@@ -65,6 +76,11 @@ abstract class AbstractProvider implements ProviderInterface
      */
     protected function makeHttpRequest(string $endpoint, array $data, array $headers = []): array
     {
+        // Check rate limit before making request
+        if ($this->rateLimiter !== null) {
+            $this->rateLimiter->acquire($this->getName());
+        }
+
         $attempt = 0;
         $lastError = null;
 
@@ -176,6 +192,30 @@ abstract class AbstractProvider implements ProviderInterface
     protected function getConfigValue(string $key, $default = null)
     {
         return $this->config->get("ai.{$key}", $default);
+    }
+
+    /**
+     * Execute a generation with caching support.
+     *
+     * @param string $prompt The prompt to generate from
+     * @param array<string, mixed> $options Generation options
+     * @param callable $generator The generation callback
+     * @return string The generated content
+     */
+    protected function generateWithCache(string $prompt, array $options, callable $generator): string
+    {
+        if ($this->cache === null || !$this->cache->isEnabled()) {
+            return $generator();
+        }
+
+        $cacheKey = $this->cache->keyGenerator()->forProviderResponse(
+            $this->getName(),
+            $this->model,
+            $prompt,
+            $options
+        );
+
+        return $this->cache->remember($cacheKey, $generator);
     }
 
     /**

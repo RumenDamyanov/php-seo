@@ -1,0 +1,201 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\AI\\\\PromptBuilder\\:\\:extractContent\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/AI/PromptBuilder.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\AI\\\\PromptBuilder\\:\\:extractHeadings\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/AI/PromptBuilder.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\AI\\\\PromptBuilder\\:\\:extractKeywords\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/AI/PromptBuilder.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\AI\\\\PromptBuilder\\:\\:extractSummary\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/AI/PromptBuilder.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\AI\\\\PromptBuilder\\:\\:getMaxLength\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/AI/PromptBuilder.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\AI\\\\PromptBuilder\\:\\:getMinLength\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/AI/PromptBuilder.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Generators\\\\MetaTagGenerator\\:\\:generate\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Generators/MetaTagGenerator.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Generators\\\\MetaTagGenerator\\:\\:generateCustom\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Generators/MetaTagGenerator.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\AnthropicProvider\\:\\:buildDescriptionPrompt\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/AnthropicProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\AnthropicProvider\\:\\:buildDescriptionPrompt\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/AnthropicProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\AnthropicProvider\\:\\:buildKeywordsPrompt\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/AnthropicProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\AnthropicProvider\\:\\:buildKeywordsPrompt\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/AnthropicProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\AnthropicProvider\\:\\:buildTitlePrompt\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/AnthropicProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\AnthropicProvider\\:\\:buildTitlePrompt\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/AnthropicProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\AnthropicProvider\\:\\:generateFallbackDescription\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/AnthropicProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\AnthropicProvider\\:\\:generateFallbackTitle\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/AnthropicProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\GoogleProvider\\:\\:buildDescriptionPrompt\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/GoogleProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\GoogleProvider\\:\\:buildDescriptionPrompt\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/GoogleProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\GoogleProvider\\:\\:buildKeywordsPrompt\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/GoogleProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\GoogleProvider\\:\\:buildKeywordsPrompt\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/GoogleProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\GoogleProvider\\:\\:buildTitlePrompt\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/GoogleProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\GoogleProvider\\:\\:buildTitlePrompt\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/GoogleProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\GoogleProvider\\:\\:generateFallbackDescription\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/GoogleProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\GoogleProvider\\:\\:generateFallbackTitle\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/GoogleProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\OllamaProvider\\:\\:buildDescriptionPrompt\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/OllamaProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\OllamaProvider\\:\\:buildDescriptionPrompt\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/OllamaProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\OllamaProvider\\:\\:buildKeywordsPrompt\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/OllamaProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\OllamaProvider\\:\\:buildKeywordsPrompt\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/OllamaProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\OllamaProvider\\:\\:buildTitlePrompt\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/OllamaProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\OllamaProvider\\:\\:buildTitlePrompt\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/OllamaProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\OllamaProvider\\:\\:generateFallbackDescription\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/OllamaProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\OllamaProvider\\:\\:generateFallbackTitle\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/OllamaProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\XaiProvider\\:\\:buildDescriptionPrompt\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/XaiProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\XaiProvider\\:\\:buildDescriptionPrompt\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/XaiProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\XaiProvider\\:\\:buildKeywordsPrompt\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/XaiProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\XaiProvider\\:\\:buildKeywordsPrompt\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/XaiProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\XaiProvider\\:\\:buildTitlePrompt\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/XaiProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\XaiProvider\\:\\:buildTitlePrompt\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/XaiProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\XaiProvider\\:\\:generateFallbackDescription\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/XaiProvider.php
+
+		-
+			message: "#^Method Rumenx\\\\PhpSeo\\\\Providers\\\\XaiProvider\\:\\:generateFallbackTitle\\(\\) has parameter \\$analysis with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Providers/XaiProvider.php

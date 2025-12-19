@@ -23,6 +23,36 @@ interface ProviderInterface
     public function generate(string $prompt, array $options = []): string;
 
     /**
+     * Generate an SEO-optimized title.
+     *
+     * @param array<string, mixed> $analysis Content analysis data
+     * @param array<string, mixed> $options Generation options
+     * @return string The generated title
+     * @throws \Rumenx\PhpSeo\Exceptions\ProviderException
+     */
+    public function generateTitle(array $analysis, array $options = []): string;
+
+    /**
+     * Generate an SEO-optimized meta description.
+     *
+     * @param array<string, mixed> $analysis Content analysis data
+     * @param array<string, mixed> $options Generation options
+     * @return string The generated description
+     * @throws \Rumenx\PhpSeo\Exceptions\ProviderException
+     */
+    public function generateDescription(array $analysis, array $options = []): string;
+
+    /**
+     * Generate SEO keywords.
+     *
+     * @param array<string, mixed> $analysis Content analysis data
+     * @param array<string, mixed> $options Generation options
+     * @return array<string> The generated keywords
+     * @throws \Rumenx\PhpSeo\Exceptions\ProviderException
+     */
+    public function generateKeywords(array $analysis, array $options = []): array;
+
+    /**
      * Check if the provider is available and configured.
      *
      * @return bool

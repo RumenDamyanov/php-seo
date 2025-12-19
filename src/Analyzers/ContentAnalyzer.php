@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rumenx\PhpSeo\Analyzers;
 
+use Rumenx\PhpSeo\Cache\SeoCache;
 use Rumenx\PhpSeo\Config\SeoConfig;
 use Rumenx\PhpSeo\Contracts\AnalyzerInterface;
 
@@ -16,10 +17,17 @@ use Rumenx\PhpSeo\Contracts\AnalyzerInterface;
 class ContentAnalyzer implements AnalyzerInterface
 {
     private SeoConfig $config;
+    private ?ImageAnalyzer $imageAnalyzer = null;
+    private ?SeoCache $cache = null;
 
-    public function __construct(SeoConfig $config)
-    {
+    public function __construct(
+        SeoConfig $config,
+        ?ImageAnalyzer $imageAnalyzer = null,
+        ?SeoCache $cache = null
+    ) {
         $this->config = $config;
+        $this->imageAnalyzer = $imageAnalyzer;
+        $this->cache = $cache;
     }
 
     /**
@@ -27,6 +35,18 @@ class ContentAnalyzer implements AnalyzerInterface
      */
     public function analyze(string $content, array $metadata = []): array
     {
+        // Try to get from cache
+        $cacheKey = null;
+        if ($this->cache !== null && $this->cache->isEnabled()) {
+            $cacheKey = $this->cache->keyGenerator()->forContentAnalysis($content, $metadata);
+            $cached = $this->cache->get($cacheKey);
+
+            if ($cached !== null && is_array($cached)) {
+                return $cached;
+            }
+        }
+
+        // Perform analysis
         $data = [
             'content' => $content,
             'metadata' => $metadata,
@@ -41,7 +61,7 @@ class ContentAnalyzer implements AnalyzerInterface
         }
 
         if ($this->config->get('analysis.extract_images', true)) {
-            $data['images'] = $this->extractImages($content);
+            $data['images'] = $this->extractImages($content, $metadata);
         }
 
         if ($this->config->get('analysis.extract_links', true)) {
@@ -55,6 +75,11 @@ class ContentAnalyzer implements AnalyzerInterface
         // Extract main content
         $data['main_content'] = $this->extractMainContent($content);
         $data['summary'] = $this->generateSummary($data['main_content']);
+
+        // Cache the result
+        if ($cacheKey !== null && $this->cache !== null && $this->cache->isEnabled()) {
+            $this->cache->set($cacheKey, $data);
+        }
 
         return $data;
     }
@@ -94,10 +119,19 @@ class ContentAnalyzer implements AnalyzerInterface
      * Extract image tags from HTML content.
      *
      * @param string $content
+     * @param array<string, mixed> $metadata
      * @return array<array<string, mixed>>
      */
-    private function extractImages(string $content): array
+    private function extractImages(string $content, array $metadata = []): array
     {
+        // Use ImageAnalyzer if available for comprehensive analysis
+        if ($this->imageAnalyzer !== null) {
+            $analysis = $this->imageAnalyzer->analyze($content, $metadata);
+
+            return $analysis['images'] ?? [];
+        }
+
+        // Fallback to basic extraction
         $images = [];
 
         if (preg_match_all('/<img[^>]*>/is', $content, $matches)) {

@@ -1,5 +1,5 @@
 parameters:
-    level: 5
+    level: 6
     paths:
         - src
     tmpDir: .phpstan.cache
@@ -17,3 +17,4 @@ parameters:
     
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - phpstan-baseline.neon

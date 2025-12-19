@@ -135,7 +135,7 @@ test('OpenAiProvider returns supported models', function () {
     $models = $provider->getSupportedModels();
 
     expect($models)->toBeArray()
-        ->and($models)->toContain('gpt-3.5-turbo')
+        ->and($models)->toContain('gpt-4o-mini')
         ->and($models)->toContain('gpt-4')
         ->and($models)->toContain('gpt-4-turbo')
         ->and($models)->toContain('gpt-4o')
@@ -324,7 +324,7 @@ test('OpenAiProvider getSupportedModels returns model list', function () {
     $models = $provider->getSupportedModels();
 
     expect($models)->toBeArray()
-        ->and($models)->toContain('gpt-3.5-turbo')
+        ->and($models)->toContain('gpt-4o-mini')
         ->and($models)->toContain('gpt-4');
 });
 
@@ -559,7 +559,7 @@ test('OpenAiProvider handles complex analysis data', function () {
 
 test('OpenAiProvider processes different model configurations', function () {
     $configs = [
-        ['model' => 'gpt-3.5-turbo'],
+        ['model' => 'gpt-4o-mini'],
         ['model' => 'gpt-4'],
         ['model' => 'gpt-4-turbo'],
     ];

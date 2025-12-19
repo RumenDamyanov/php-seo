@@ -50,11 +50,14 @@ class AnthropicProvider extends AbstractProvider
     public function getSupportedModels(): array
     {
         return [
-            'claude-3-5-sonnet-20241022',
-            'claude-3-5-haiku-20241022',
-            'claude-3-opus-20240229',
-            'claude-3-sonnet-20240229',
-            'claude-3-haiku-20240307',
+            // Latest models (Dec 2024)
+            'claude-3-7-sonnet-20250219',  // LATEST Claude 3.7 (Dec 2024) - Best overall
+            'claude-3-5-sonnet-20241022',  // Claude 3.5 Sonnet (Oct 2024) - Very capable
+            'claude-3-5-haiku-20241022',   // Claude 3.5 Haiku (Oct 2024) - Fast & efficient
+            // Legacy models (still supported)
+            'claude-3-opus-20240229',      // Claude 3 Opus (Feb 2024) - Most capable 3.0
+            'claude-3-sonnet-20240229',    // Claude 3 Sonnet (Feb 2024)
+            'claude-3-haiku-20240307',     // Claude 3 Haiku (Mar 2024) - Fastest 3.0
         ];
     }
 
@@ -79,7 +82,7 @@ class AnthropicProvider extends AbstractProvider
      */
     protected function getDefaultModel(): string
     {
-        return 'claude-3-5-sonnet-20241022';
+        return 'claude-3-7-sonnet-20250219'; // Latest Claude 3.7 as of Dec 2024
     }
 
     /**
