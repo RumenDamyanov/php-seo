@@ -20,7 +20,7 @@ return [
     // AI Provider settings
     'ai' => [
         'provider' => env('SEO_AI_PROVIDER', 'openai'), // 'openai', 'anthropic', 'google', 'xai', 'ollama'
-        'model' => env('SEO_AI_MODEL', 'gpt-4-turbo-preview'),
+        'model' => env('SEO_AI_MODEL', 'gpt-4o-mini'), // Best cost/performance as of Dec 2024
         'api_key' => env('SEO_AI_API_KEY'),
         'api_url' => env('SEO_AI_API_URL'),
         'timeout' => env('SEO_AI_TIMEOUT', 30),

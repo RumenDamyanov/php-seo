@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Rumenx\PhpSeo;
 
+use Psr\SimpleCache\CacheInterface;
 use Rumenx\PhpSeo\Analyzers\ContentAnalyzer;
+use Rumenx\PhpSeo\Analyzers\ImageAnalyzer;
+use Rumenx\PhpSeo\Cache\SeoCache;
 use Rumenx\PhpSeo\Config\SeoConfig;
 use Rumenx\PhpSeo\Generators\DescriptionGenerator;
+use Rumenx\PhpSeo\Generators\ImageAltGenerator;
 use Rumenx\PhpSeo\Generators\MetaTagGenerator;
+use Rumenx\PhpSeo\Generators\StructuredDataGenerator;
 use Rumenx\PhpSeo\Generators\TitleGenerator;
 
 /**
@@ -20,10 +25,14 @@ use Rumenx\PhpSeo\Generators\TitleGenerator;
 class SeoManager
 {
     private SeoConfig $config;
+    private ?SeoCache $cache = null;
     private ContentAnalyzer $contentAnalyzer;
+    private ImageAnalyzer $imageAnalyzer;
     private TitleGenerator $titleGenerator;
     private DescriptionGenerator $descriptionGenerator;
     private MetaTagGenerator $metaTagGenerator;
+    private ImageAltGenerator $imageAltGenerator;
+    private StructuredDataGenerator $structuredDataGenerator;
 
     /**
      * @var array<string, mixed>
@@ -32,16 +41,29 @@ class SeoManager
 
     public function __construct(
         ?SeoConfig $config = null,
+        ?CacheInterface $cacheImplementation = null,
         ?ContentAnalyzer $contentAnalyzer = null,
+        ?ImageAnalyzer $imageAnalyzer = null,
         ?TitleGenerator $titleGenerator = null,
         ?DescriptionGenerator $descriptionGenerator = null,
-        ?MetaTagGenerator $metaTagGenerator = null
+        ?MetaTagGenerator $metaTagGenerator = null,
+        ?ImageAltGenerator $imageAltGenerator = null,
+        ?StructuredDataGenerator $structuredDataGenerator = null
     ) {
         $this->config = $config ?? new SeoConfig();
-        $this->contentAnalyzer = $contentAnalyzer ?? new ContentAnalyzer($this->config);
+
+        // Initialize cache if provided
+        if ($cacheImplementation !== null) {
+            $this->cache = new SeoCache($this->config, $cacheImplementation);
+        }
+
+        $this->imageAnalyzer = $imageAnalyzer ?? new ImageAnalyzer($this->config);
+        $this->contentAnalyzer = $contentAnalyzer ?? new ContentAnalyzer($this->config, $this->imageAnalyzer, $this->cache);
         $this->titleGenerator = $titleGenerator ?? new TitleGenerator($this->config);
         $this->descriptionGenerator = $descriptionGenerator ?? new DescriptionGenerator($this->config);
         $this->metaTagGenerator = $metaTagGenerator ?? new MetaTagGenerator($this->config);
+        $this->imageAltGenerator = $imageAltGenerator ?? new ImageAltGenerator($this->config);
+        $this->structuredDataGenerator = $structuredDataGenerator ?? new StructuredDataGenerator($this->config);
     }
 
     /**
@@ -102,6 +124,55 @@ class SeoManager
     }
 
     /**
+     * Generate alt text for images in the current page.
+     *
+     * @return array<string, string> Map of image src to generated alt text
+     */
+    public function generateImageAltTexts(): array
+    {
+        if (empty($this->pageData['images'])) {
+            return [];
+        }
+
+        return $this->imageAltGenerator->generateForImages(
+            $this->pageData['images'],
+            $this->pageData
+        );
+    }
+
+    /**
+     * Generate structured data for the current page.
+     *
+     * @return array<array<string, mixed>>
+     */
+    public function generateStructuredData(): array
+    {
+        if (!$this->config->get('structured_data.enabled', true)) {
+            return [];
+        }
+
+        $schemas = $this->structuredDataGenerator->generate($this->pageData);
+
+        return array_map(fn ($schema) => $schema->toArray(), $schemas);
+    }
+
+    /**
+     * Get structured data as HTML script tags.
+     *
+     * @return string
+     */
+    public function renderStructuredData(): string
+    {
+        if (!$this->config->get('structured_data.enabled', true)) {
+            return '';
+        }
+
+        $schemas = $this->structuredDataGenerator->generate($this->pageData);
+
+        return implode("\n", array_map(fn ($schema) => $schema->toHtml(), $schemas));
+    }
+
+    /**
      * Generate complete SEO data for the current page.
      *
      * @param array<string, mixed> $overrides Custom values to override generated ones
@@ -113,6 +184,8 @@ class SeoManager
             'title' => $this->generateTitle($overrides['title'] ?? null),
             'description' => $this->generateDescription($overrides['description'] ?? null),
             'meta_tags' => $this->generateMetaTags($overrides['meta_tags'] ?? []),
+            'image_alt_texts' => $this->generateImageAltTexts(),
+            'structured_data' => $this->generateStructuredData(),
             'page_data' => $this->pageData,
         ];
 
@@ -209,12 +282,46 @@ class SeoManager
      */
     public function withConfig(SeoConfig $config): self
     {
+        // Note: Cache is not preserved when creating with new config.
+        // Users should use setCache() after withConfig() if they want caching.
+        $imageAnalyzer = new ImageAnalyzer($config);
+
         return new self(
             $config,
-            new ContentAnalyzer($config),
+            null,
+            new ContentAnalyzer($config, $imageAnalyzer, null),
+            $imageAnalyzer,
             new TitleGenerator($config),
             new DescriptionGenerator($config),
-            new MetaTagGenerator($config)
+            new MetaTagGenerator($config),
+            new ImageAltGenerator($config),
+            new StructuredDataGenerator($config)
         );
+    }
+
+    /**
+     * Set a cache implementation.
+     *
+     * @param CacheInterface $cacheImplementation PSR-16 cache implementation
+     * @return self
+     */
+    public function setCache(CacheInterface $cacheImplementation): self
+    {
+        $this->cache = new SeoCache($this->config, $cacheImplementation);
+
+        // Update ContentAnalyzer with the new cache
+        $this->contentAnalyzer = new ContentAnalyzer($this->config, $this->imageAnalyzer, $this->cache);
+
+        return $this;
+    }
+
+    /**
+     * Get the cache instance.
+     *
+     * @return SeoCache|null
+     */
+    public function getCache(): ?SeoCache
+    {
+        return $this->cache;
     }
 }

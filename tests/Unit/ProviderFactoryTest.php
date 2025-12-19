@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Rumenx\PhpSeo\Config\SeoConfig;
-use Rumenx\PhpSeo\Contracts\ProviderInterface;
 use Rumenx\PhpSeo\Providers\AnthropicProvider;
 use Rumenx\PhpSeo\Providers\GoogleProvider;
 use Rumenx\PhpSeo\Providers\OllamaProvider;
@@ -193,7 +192,7 @@ test('ProviderFactory createAll only creates configured providers', function () 
     $config = new SeoConfig([
         'ai' => [
             'api_key' => 'test-key',
-            'model' => 'gpt-4-turbo-preview', // Explicitly use OpenAI model
+            'model' => 'gpt-4o-mini', // Explicitly use OpenAI model
         ],
     ]);
 

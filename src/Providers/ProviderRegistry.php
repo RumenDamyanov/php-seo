@@ -160,9 +160,7 @@ class ProviderRegistry
 
         foreach ($providers as $provider) {
             try {
-                if (method_exists($provider, 'generateTitle')) {
-                    return $provider->generateTitle($analysis, $options);
-                }
+                return $provider->generateTitle($analysis, $options);
             } catch (\Exception $e) {
                 $errors[$provider->getName()] = $e->getMessage();
 
@@ -188,9 +186,7 @@ class ProviderRegistry
 
         foreach ($providers as $provider) {
             try {
-                if (method_exists($provider, 'generateDescription')) {
-                    return $provider->generateDescription($analysis, $options);
-                }
+                return $provider->generateDescription($analysis, $options);
             } catch (\Exception $e) {
                 $errors[$provider->getName()] = $e->getMessage();
 
@@ -216,9 +212,7 @@ class ProviderRegistry
 
         foreach ($providers as $provider) {
             try {
-                if (method_exists($provider, 'generateKeywords')) {
-                    return $provider->generateKeywords($analysis, $options);
-                }
+                return $provider->generateKeywords($analysis, $options);
             } catch (\Exception $e) {
                 $errors[$provider->getName()] = $e->getMessage();
 

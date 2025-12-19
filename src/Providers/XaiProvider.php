@@ -50,8 +50,14 @@ class XaiProvider extends AbstractProvider
     public function getSupportedModels(): array
     {
         return [
-            'grok-beta',
-            'grok-vision-beta',
+            // Latest models (Dec 2024)
+            'grok-2-latest',           // Latest Grok 2 model
+            'grok-2-vision-latest',    // Latest Grok 2 with vision
+            'grok-2-1212',             // Grok 2 (Dec 2024)
+            'grok-2-vision-1212',      // Grok 2 Vision (Dec 2024)
+            // Legacy beta models
+            'grok-beta',               // Original beta
+            'grok-vision-beta',        // Vision beta
         ];
     }
 
@@ -76,7 +82,7 @@ class XaiProvider extends AbstractProvider
      */
     protected function getDefaultModel(): string
     {
-        return 'grok-beta';
+        return 'grok-2-latest'; // Latest Grok 2 as of Dec 2024
     }
 
     /**

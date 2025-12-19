@@ -42,7 +42,7 @@ class SeoConfig
             // AI Provider settings
             'ai' => [
                 'provider' => 'openai', // 'openai', 'anthropic', 'google', 'xai', 'ollama'
-                'model' => 'gpt-4-turbo-preview',
+                'model' => 'gpt-4o-mini', // Best cost/performance as of Dec 2024
                 'api_key' => null,
                 'api_url' => null,
                 'timeout' => 30,
@@ -109,11 +109,34 @@ class SeoConfig
                     'enabled' => true,
                     'ai_vision' => false,
                     'pattern' => null,
+                    'max_length' => 125,
+                    'min_length' => 10,
                     'ai_prompt' => 'Generate descriptive alt text for this image based on its context.',
                 ],
                 'title_text' => [
                     'enabled' => true,
                     'pattern' => null,
+                ],
+            ],
+
+            // Structured data settings
+            'structured_data' => [
+                'enabled' => true,
+                'types' => [
+                    'article' => true,
+                    'webpage' => true,
+                    'organization' => false,
+                    'breadcrumb' => true,
+                ],
+                'publisher' => [
+                    'name' => null,
+                    'logo' => null,
+                ],
+                'organization' => [
+                    'name' => null,
+                    'url' => null,
+                    'logo' => null,
+                    'social_media' => [],
                 ],
             ],
 

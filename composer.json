@@ -39,12 +39,13 @@
     ],
     "require": {
         "php": "^8.2",
-        "ext-json": "*",
         "ext-curl": "*",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.8",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
         "psr/log": "^3.0",
-        "guzzlehttp/guzzle": "^7.8"
+        "psr/simple-cache": "^3.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.48",

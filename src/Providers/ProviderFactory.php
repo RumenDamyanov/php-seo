@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Rumenx\PhpSeo\Providers;
 
+use Rumenx\PhpSeo\Cache\SeoCache;
 use Rumenx\PhpSeo\Config\SeoConfig;
 use Rumenx\PhpSeo\Contracts\ProviderInterface;
 use Rumenx\PhpSeo\Exceptions\ProviderException;
+use Rumenx\PhpSeo\RateLimiting\RateLimiter;
 
 /**
  * Factory for creating AI provider instances.
@@ -30,10 +32,17 @@ class ProviderFactory
     ];
 
     private SeoConfig $config;
+    private ?SeoCache $cache = null;
+    private ?RateLimiter $rateLimiter = null;
 
-    public function __construct(SeoConfig $config)
-    {
+    public function __construct(
+        SeoConfig $config,
+        ?SeoCache $cache = null,
+        ?RateLimiter $rateLimiter = null
+    ) {
         $this->config = $config;
+        $this->cache = $cache;
+        $this->rateLimiter = $rateLimiter ?? new RateLimiter($config);
     }
 
     /**
@@ -56,7 +65,7 @@ class ProviderFactory
 
         $className = self::PROVIDER_MAP[$name];
 
-        return new $className($this->config);
+        return new $className($this->config, $this->cache, $this->rateLimiter);
     }
 
     /**

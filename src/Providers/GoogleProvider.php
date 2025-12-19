@@ -51,10 +51,14 @@ class GoogleProvider extends AbstractProvider
     public function getSupportedModels(): array
     {
         return [
-            'gemini-1.5-pro',
-            'gemini-1.5-flash',
-            'gemini-1.0-pro',
-            'gemini-pro',
+            // Latest models (Dec 2024)
+            'gemini-2.0-flash-exp',    // LATEST Gemini 2.0 Flash (Dec 2024) - Fastest
+            'gemini-exp-1206',         // Experimental model (Dec 2024)
+            'gemini-1.5-pro',          // Gemini 1.5 Pro - Most capable 1.5
+            'gemini-1.5-flash',        // Gemini 1.5 Flash - Fast & efficient
+            // Legacy models (still supported)
+            'gemini-1.0-pro',          // Gemini 1.0 Pro
+            'gemini-pro',              // Original Gemini Pro (alias)
         ];
     }
 
@@ -79,7 +83,7 @@ class GoogleProvider extends AbstractProvider
      */
     protected function getDefaultModel(): string
     {
-        return 'gemini-1.5-flash';
+        return 'gemini-2.0-flash-exp'; // Latest Gemini 2.0 as of Dec 2024
     }
 
     /**

@@ -50,11 +50,15 @@ class OpenAiProvider extends AbstractProvider
     public function getSupportedModels(): array
     {
         return [
-            'gpt-3.5-turbo',
-            'gpt-4',
-            'gpt-4-turbo',
-            'gpt-4o',
-            'gpt-4o-mini',
+            // Latest models (Dec 2024)
+            'gpt-4o',           // Latest GPT-4 Omni (May 2024) - Best quality
+            'gpt-4o-mini',      // Mini version (July 2024) - Best cost/performance
+            'o1-preview',       // Reasoning model (Sept 2024) - Complex tasks
+            'o1-mini',          // Fast reasoning (Sept 2024) - Quick reasoning
+            // Legacy models (still supported)
+            'gpt-4-turbo',      // Previous generation
+            'gpt-4',            // Original GPT-4
+            'gpt-3.5-turbo',    // Budget option
         ];
     }
 
@@ -79,7 +83,7 @@ class OpenAiProvider extends AbstractProvider
      */
     protected function getDefaultModel(): string
     {
-        return 'gpt-3.5-turbo';
+        return 'gpt-4o-mini'; // Best cost/performance ratio as of Dec 2024
     }
 
     /**

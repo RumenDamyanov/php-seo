@@ -60,4 +60,22 @@ class ProviderException extends \Exception
     {
         return new self("Provider '{$provider}' API error: {$errorMessage}", $httpCode);
     }
+
+    /**
+     * Create an exception for rate limit exceeded.
+     *
+     * @param string $provider The provider name
+     * @param float $waitTime Time to wait in seconds
+     * @return self
+     */
+    public static function rateLimitExceeded(string $provider, float $waitTime): self
+    {
+        $message = sprintf(
+            "Provider '%s' rate limit exceeded. Please wait %.2f seconds before retrying.",
+            $provider,
+            $waitTime
+        );
+
+        return new self($message, 429);
+    }
 }
