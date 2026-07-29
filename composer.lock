@@ -4622,16 +4622,16 @@
         },
         {
             "name": "orchestra/workbench",
-            "version": "v10.1.0",
+            "version": "v10.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/workbench.git",
-                "reference": "bb5025efd9ea83610b87b3287956d90170b464e6"
+                "reference": "01212434bc1e3bd6c2c96f1977d0951b9fb91e97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/workbench/zipball/bb5025efd9ea83610b87b3287956d90170b464e6",
-                "reference": "bb5025efd9ea83610b87b3287956d90170b464e6",
+                "url": "https://api.github.com/repos/orchestral/workbench/zipball/01212434bc1e3bd6c2c96f1977d0951b9fb91e97",
+                "reference": "01212434bc1e3bd6c2c96f1977d0951b9fb91e97",
                 "shasum": ""
             },
             "require": {
@@ -4641,7 +4641,7 @@
                 "laravel/pail": "^1.2.2",
                 "laravel/tinker": "^2.10.1",
                 "nunomaduro/collision": "^8.6",
-                "orchestra/canvas": "^10.2.0",
+                "orchestra/canvas": "^10.2.1",
                 "orchestra/canvas-core": "^10.2.0",
                 "orchestra/sidekick": "~1.1.23|~1.2.20",
                 "orchestra/testbench-core": "^10.12.0",
@@ -4654,7 +4654,7 @@
                 "laravel/pint": "^1.22.0",
                 "mockery/mockery": "^1.6.12",
                 "phpstan/phpstan": "^2.1.33",
-                "phpunit/phpunit": "^11.5.3|^12.0.1",
+                "phpunit/phpunit": "^11.5.3|^12.0.1|^13.0",
                 "spatie/laravel-ray": "^1.42.0"
             },
             "suggest": {
@@ -4685,9 +4685,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/workbench/issues",
-                "source": "https://github.com/orchestral/workbench/tree/v10.1.0"
+                "source": "https://github.com/orchestral/workbench/tree/v10.2.0"
             },
-            "time": "2026-03-24T23:02:25+00:00"
+            "time": "2026-07-22T02:17:12+00:00"
         },
         {
             "name": "pestphp/pest",
