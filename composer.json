@@ -64,7 +64,7 @@
         "twig/twig": "^3.21"
     },
     "suggest": {
-        "laravel/framework": "For Laravel integration (^11.0|^12.0)",
+        "laravel/framework": "For Laravel integration (^10.0|^11.0|^12.0)",
         "symfony/framework-bundle": "For Symfony integration (^6.0|^7.0)",
         "monolog/monolog": "For enhanced logging support"
     },
