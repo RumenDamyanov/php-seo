@@ -146,7 +146,10 @@ class ResponseValidator
         }
 
         // Filter and sanitize
-        $keywords = array_filter(array_map([$this, 'sanitizeText'], $keywords));
+        $keywords = array_filter(
+            array_map([$this, 'sanitizeText'], $keywords),
+            static fn (string $keyword): bool => $keyword !== ''
+        );
 
         $maxKeywords = $this->config->get('meta_tags.keywords_max', 10);
 

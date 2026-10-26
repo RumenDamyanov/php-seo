@@ -41,6 +41,8 @@ test('XaiProvider returns supported models', function () {
     $models = $provider->getSupportedModels();
 
     expect($models)->toBeArray()
+        ->and($models)->toContain('grok-4.7')
+        ->and($models)->toContain('grok-4.6')
         ->and($models)->toContain('grok-beta')
         ->and($models)->toContain('grok-vision-beta');
 });
@@ -160,4 +162,24 @@ test('XaiProvider handles timeout configuration', function () {
     $provider = new XaiProvider($config);
 
     expect($provider->isAvailable())->toBeTrue();
+});
+
+test('XaiProvider drops empty keywords from a successful response', function () {
+    $provider = new class (new SeoConfig([
+        'ai' => [
+            'api_key' => 'test-key',
+            'model' => 'grok-4.6',
+        ],
+    ])) extends XaiProvider {
+        protected function makeHttpRequest(string $endpoint, array $data, array $headers = []): array
+        {
+            return [
+                'choices' => [[
+                    'message' => ['content' => 'alpha, beta, '],
+                ]],
+            ];
+        }
+    };
+
+    expect(array_values($provider->generateKeywords(['main_content' => 'PHP SEO'])))->toBe(['alpha', 'beta']);
 });

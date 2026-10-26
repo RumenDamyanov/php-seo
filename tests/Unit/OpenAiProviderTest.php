@@ -135,11 +135,12 @@ test('OpenAiProvider returns supported models', function () {
     $models = $provider->getSupportedModels();
 
     expect($models)->toBeArray()
+        ->and($models)->toContain('gpt-5.4')
+        ->and($models)->toContain('gpt-5.4-mini')
         ->and($models)->toContain('gpt-4o-mini')
         ->and($models)->toContain('gpt-4')
         ->and($models)->toContain('gpt-4-turbo')
-        ->and($models)->toContain('gpt-4o')
-        ->and($models)->toContain('gpt-4o-mini');
+        ->and($models)->toContain('gpt-4o');
 });
 
 test('OpenAiProvider uses fallback for title when AI fails', function () {
@@ -799,4 +800,24 @@ test('OpenAiProvider fallback description generation with different data', funct
         // Expected, but we tested the fallback path
         expect($e->getMessage())->toContain('not properly configured');
     }
+});
+
+test('OpenAiProvider drops empty keywords from a successful response', function () {
+    $provider = new class (new SeoConfig([
+        'ai' => [
+            'api_key' => 'test-key',
+            'model' => 'gpt-5.4-mini',
+        ],
+    ])) extends OpenAiProvider {
+        protected function makeHttpRequest(string $endpoint, array $data, array $headers = []): array
+        {
+            return [
+                'choices' => [[
+                    'message' => ['content' => 'alpha, beta, '],
+                ]],
+            ];
+        }
+    };
+
+    expect(array_values($provider->generateKeywords(['main_content' => 'PHP SEO'])))->toBe(['alpha', 'beta']);
 });

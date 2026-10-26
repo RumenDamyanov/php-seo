@@ -41,6 +41,8 @@ test('GoogleProvider returns supported models', function () {
     $models = $provider->getSupportedModels();
 
     expect($models)->toBeArray()
+        ->and($models)->toContain('gemini-3.8-flash')
+        ->and($models)->toContain('gemini-3.5-flash-lite')
         ->and($models)->toContain('gemini-pro')
         ->and($models)->toContain('gemini-1.5-pro')
         ->and($models)->toContain('gemini-1.5-flash');
@@ -155,4 +157,49 @@ test('GoogleProvider handles timeout configuration', function () {
     $provider = new GoogleProvider($config);
 
     expect($provider->isAvailable())->toBeTrue();
+});
+
+test('GoogleProvider rejects a model name that could change the request path', function () {
+    $config = new SeoConfig([
+        'ai' => [
+            'api_key' => 'test-key',
+            'model' => '../other-api',
+        ],
+    ]);
+
+    $provider = new GoogleProvider($config);
+
+    expect(fn () => $provider->generate('Write a title'))
+        ->toThrow(RuntimeException::class, 'Invalid Gemini model name');
+});
+
+test('GoogleProvider uses a safe model path and drops empty keywords', function () {
+    $provider = new class (new SeoConfig([
+        'ai' => [
+            'api_key' => 'test-key',
+            'model' => 'gemini-3.5-flash-lite',
+        ],
+    ])) extends GoogleProvider {
+        protected function makeHttpRequest(string $endpoint, array $data, array $headers = []): array
+        {
+            expect($endpoint)->toBe('/models/gemini-3.5-flash-lite:generateContent');
+
+            return [
+                'candidates' => [[
+                    'content' => [
+                        'parts' => [[
+                            'text' => 'alpha, beta, ',
+                        ]],
+                    ],
+                ]],
+            ];
+        }
+    };
+
+    $analysis = ['main_content' => 'PHP SEO'];
+
+    expect($provider->generate('Write a title'))->toBe('alpha, beta,');
+    expect($provider->generateTitle($analysis))->toBe('alpha, beta,');
+    expect($provider->generateDescription($analysis))->toBe('alpha, beta,');
+    expect(array_values($provider->generateKeywords($analysis)))->toBe(['alpha', 'beta']);
 });

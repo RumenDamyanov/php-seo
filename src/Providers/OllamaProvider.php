@@ -247,7 +247,7 @@ class OllamaProvider extends AbstractProvider
             $content = $this->parseResponse($response);
             $keywords = array_map('trim', explode(',', $content));
 
-            return array_filter($keywords);
+            return array_filter($keywords, static fn (string $keyword): bool => $keyword !== '');
         } catch (\Exception $e) {
             if ($this->config->get('ai.fallback_enabled', true)) {
                 return $analysis['keywords'] ?? [];

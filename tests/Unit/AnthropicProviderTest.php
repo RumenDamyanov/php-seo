@@ -42,6 +42,9 @@ test('AnthropicProvider returns supported models', function () {
     $models = $provider->getSupportedModels();
 
     expect($models)->toBeArray()
+        ->and($models)->toContain('claude-opus-5')
+        ->and($models)->toContain('claude-sonnet-5')
+        ->and($models)->toContain('claude-haiku-4-5')
         ->and($models)->toContain('claude-3-opus-20240229')
         ->and($models)->toContain('claude-3-sonnet-20240229')
         ->and($models)->toContain('claude-3-haiku-20240307')
@@ -202,4 +205,24 @@ test('AnthropicProvider handles timeout configuration', function () {
     $provider = new AnthropicProvider($config);
 
     expect($provider->isAvailable())->toBeTrue();
+});
+
+test('AnthropicProvider drops empty keywords from a successful response', function () {
+    $provider = new class (new SeoConfig([
+        'ai' => [
+            'api_key' => 'test-key',
+            'model' => 'claude-haiku-4-5',
+        ],
+    ])) extends AnthropicProvider {
+        protected function makeHttpRequest(string $endpoint, array $data, array $headers = []): array
+        {
+            return [
+                'content' => [[
+                    'text' => 'alpha, beta, ',
+                ]],
+            ];
+        }
+    };
+
+    expect(array_values($provider->generateKeywords(['main_content' => 'PHP SEO'])))->toBe(['alpha', 'beta']);
 });

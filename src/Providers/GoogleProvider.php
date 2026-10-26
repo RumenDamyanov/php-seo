@@ -26,7 +26,7 @@ class GoogleProvider extends AbstractProvider
         try {
             $data = $this->formatRequest($prompt, $options);
             $headers = $this->buildHeaders();
-            $endpoint = "/models/{$this->model}:generateContent";
+            $endpoint = $this->modelEndpoint();
             $response = $this->makeHttpRequest($endpoint, $data, $headers);
 
             return $this->parseResponse($response);
@@ -51,14 +51,18 @@ class GoogleProvider extends AbstractProvider
     public function getSupportedModels(): array
     {
         return [
-            // Latest models (Dec 2024)
-            'gemini-2.0-flash-exp',    // LATEST Gemini 2.0 Flash (Dec 2024) - Fastest
-            'gemini-exp-1206',         // Experimental model (Dec 2024)
-            'gemini-1.5-pro',          // Gemini 1.5 Pro - Most capable 1.5
-            'gemini-1.5-flash',        // Gemini 1.5 Flash - Fast & efficient
-            // Legacy models (still supported)
-            'gemini-1.0-pro',          // Gemini 1.0 Pro
-            'gemini-pro',              // Original Gemini Pro (alias)
+            // Current models for new projects — https://ai.google.dev/gemini-api/docs/models
+            'gemini-3.8-flash',
+            'gemini-3.5-flash-lite',   // Fast and inexpensive; best fit for SEO snippets
+            'gemini-2.5-pro',
+            'gemini-2.5-flash',
+            'gemini-2.5-flash-lite',
+            // Older models
+            'gemini-2.0-flash-exp',
+            'gemini-1.5-pro',
+            'gemini-1.5-flash',
+            'gemini-1.0-pro',
+            'gemini-pro',
         ];
     }
 
@@ -83,7 +87,7 @@ class GoogleProvider extends AbstractProvider
      */
     protected function getDefaultModel(): string
     {
-        return 'gemini-2.0-flash-exp'; // Latest Gemini 2.0 as of Dec 2024
+        return 'gemini-3.5-flash-lite';
     }
 
     /**
@@ -91,7 +95,7 @@ class GoogleProvider extends AbstractProvider
      */
     protected function getDefaultBaseUrl(): string
     {
-        return 'https://generativelanguage.googleapis.com/v1';
+        return 'https://generativelanguage.googleapis.com/v1beta';
     }
 
     /**
@@ -115,6 +119,20 @@ class GoogleProvider extends AbstractProvider
         $endpoint .= $separator . 'key=' . urlencode($this->apiKey);
 
         return parent::makeHttpRequest($endpoint, $data, $headers);
+    }
+
+    /**
+     * Build the generateContent path.
+     *
+     * The model is interpolated into the URL, so separators and traversal are rejected.
+     */
+    private function modelEndpoint(): string
+    {
+        if (preg_match('/^[A-Za-z0-9._-]+$/', $this->model) !== 1) {
+            throw new \InvalidArgumentException('Invalid Gemini model name.');
+        }
+
+        return '/models/' . $this->model . ':generateContent';
     }
 
     /**
@@ -179,7 +197,7 @@ class GoogleProvider extends AbstractProvider
                 'temperature' => 0.7,
             ]);
             $headers = $this->buildHeaders();
-            $endpoint = "/models/{$this->model}:generateContent";
+            $endpoint = $this->modelEndpoint();
             $response = $this->makeHttpRequest($endpoint, $data, $headers);
 
             return $this->parseResponse($response);
@@ -215,7 +233,7 @@ class GoogleProvider extends AbstractProvider
                 'temperature' => 0.7,
             ]);
             $headers = $this->buildHeaders();
-            $endpoint = "/models/{$this->model}:generateContent";
+            $endpoint = $this->modelEndpoint();
             $response = $this->makeHttpRequest($endpoint, $data, $headers);
 
             return $this->parseResponse($response);
@@ -251,13 +269,13 @@ class GoogleProvider extends AbstractProvider
                 'temperature' => 0.5,
             ]);
             $headers = $this->buildHeaders();
-            $endpoint = "/models/{$this->model}:generateContent";
+            $endpoint = $this->modelEndpoint();
             $response = $this->makeHttpRequest($endpoint, $data, $headers);
 
             $content = $this->parseResponse($response);
             $keywords = array_map('trim', explode(',', $content));
 
-            return array_filter($keywords);
+            return array_filter($keywords, static fn (string $keyword): bool => $keyword !== '');
         } catch (\Exception $e) {
             if ($this->config->get('ai.fallback_enabled', true)) {
                 return $analysis['keywords'] ?? [];

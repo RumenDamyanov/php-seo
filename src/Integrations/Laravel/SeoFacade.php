@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Laravel facade for the SEO manager.
  *
- * @method static \Rumenx\PhpSeo\SeoManager analyze(string $content, array $metadata = [])
+ * @method static \Rumenx\PhpSeo\SeoManager analyze(string $content, array<string, mixed> $metadata = [])
  * @method static string generateTitle(string|null $customTitle = null)
  * @method static string generateDescription(string|null $customDescription = null)
- * @method static array generateMetaTags(array $customMeta = [])
- * @method static array generateAll(array $overrides = [])
- * @method static string renderMetaTags(array|null $seoData = null)
+ * @method static array<string, string> generateMetaTags(array<string, mixed> $customMeta = [])
+ * @method static array<string, mixed> generateAll(array<string, mixed> $overrides = [])
+ * @method static string renderMetaTags(array<string, mixed>|null $seoData = null)
  * @method static \Rumenx\PhpSeo\Config\SeoConfig getConfig()
- * @method static array getPageData()
- * @method static \Rumenx\PhpSeo\SeoManager setPageData(array $data)
+ * @method static array<string, mixed> getPageData()
+ * @method static \Rumenx\PhpSeo\SeoManager setPageData(array<string, mixed> $data)
  * @method static \Rumenx\PhpSeo\SeoManager withConfig(\Rumenx\PhpSeo\Config\SeoConfig $config)
  *
  * @see \Rumenx\PhpSeo\SeoManager
