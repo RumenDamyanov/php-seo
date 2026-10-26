@@ -206,3 +206,23 @@ test('AnthropicProvider handles timeout configuration', function () {
 
     expect($provider->isAvailable())->toBeTrue();
 });
+
+test('AnthropicProvider drops empty keywords from a successful response', function () {
+    $provider = new class (new SeoConfig([
+        'ai' => [
+            'api_key' => 'test-key',
+            'model' => 'claude-haiku-4-5',
+        ],
+    ])) extends AnthropicProvider {
+        protected function makeHttpRequest(string $endpoint, array $data, array $headers = []): array
+        {
+            return [
+                'content' => [[
+                    'text' => 'alpha, beta, ',
+                ]],
+            ];
+        }
+    };
+
+    expect(array_values($provider->generateKeywords(['main_content' => 'PHP SEO'])))->toBe(['alpha', 'beta']);
+});

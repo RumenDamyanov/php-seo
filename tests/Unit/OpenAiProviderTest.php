@@ -801,3 +801,23 @@ test('OpenAiProvider fallback description generation with different data', funct
         expect($e->getMessage())->toContain('not properly configured');
     }
 });
+
+test('OpenAiProvider drops empty keywords from a successful response', function () {
+    $provider = new class (new SeoConfig([
+        'ai' => [
+            'api_key' => 'test-key',
+            'model' => 'gpt-5.4-mini',
+        ],
+    ])) extends OpenAiProvider {
+        protected function makeHttpRequest(string $endpoint, array $data, array $headers = []): array
+        {
+            return [
+                'choices' => [[
+                    'message' => ['content' => 'alpha, beta, '],
+                ]],
+            ];
+        }
+    };
+
+    expect(array_values($provider->generateKeywords(['main_content' => 'PHP SEO'])))->toBe(['alpha', 'beta']);
+});

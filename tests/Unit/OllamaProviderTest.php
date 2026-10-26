@@ -270,3 +270,20 @@ test('OllamaProvider does not require API key', function () {
     expect($provider->isAvailable())->toBeTrue()
         ->and($provider->validateConfig(['model' => 'llama2']))->toBeTrue();
 });
+
+test('OllamaProvider drops empty keywords from a successful response', function () {
+    $provider = new class (new SeoConfig([
+        'ai' => [
+            'model' => 'llama3.2',
+        ],
+    ])) extends OllamaProvider {
+        protected function makeHttpRequest(string $endpoint, array $data, array $headers = []): array
+        {
+            return [
+                'response' => 'alpha, beta, ',
+            ];
+        }
+    };
+
+    expect(array_values($provider->generateKeywords(['main_content' => 'PHP SEO'])))->toBe(['alpha', 'beta']);
+});
