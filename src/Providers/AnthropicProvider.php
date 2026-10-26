@@ -50,14 +50,20 @@ class AnthropicProvider extends AbstractProvider
     public function getSupportedModels(): array
     {
         return [
-            // Latest models (Dec 2024)
-            'claude-3-7-sonnet-20250219',  // LATEST Claude 3.7 (Dec 2024) - Best overall
-            'claude-3-5-sonnet-20241022',  // Claude 3.5 Sonnet (Oct 2024) - Very capable
-            'claude-3-5-haiku-20241022',   // Claude 3.5 Haiku (Oct 2024) - Fast & efficient
-            // Legacy models (still supported)
-            'claude-3-opus-20240229',      // Claude 3 Opus (Feb 2024) - Most capable 3.0
-            'claude-3-sonnet-20240229',    // Claude 3 Sonnet (Feb 2024)
-            'claude-3-haiku-20240307',     // Claude 3 Haiku (Mar 2024) - Fastest 3.0
+            // Current lineup — https://docs.anthropic.com/en/docs/about-claude/models/all-models
+            'claude-opus-5',                 // Complex work
+            'claude-sonnet-5',               // Speed and quality
+            'claude-haiku-4-5',              // Fast, low-cost; best fit for SEO snippets
+            'claude-haiku-4-5-20251001',
+            // Previous generation, still accepted by the API
+            'claude-opus-4-6',
+            'claude-sonnet-4-6',
+            'claude-3-7-sonnet-20250219',
+            'claude-3-5-sonnet-20241022',
+            'claude-3-5-haiku-20241022',
+            'claude-3-opus-20240229',
+            'claude-3-sonnet-20240229',
+            'claude-3-haiku-20240307',
         ];
     }
 
@@ -82,7 +88,7 @@ class AnthropicProvider extends AbstractProvider
      */
     protected function getDefaultModel(): string
     {
-        return 'claude-3-7-sonnet-20250219'; // Latest Claude 3.7 as of Dec 2024
+        return 'claude-haiku-4-5';
     }
 
     /**
@@ -238,7 +244,7 @@ class AnthropicProvider extends AbstractProvider
             $content = $this->parseResponse($response);
             $keywords = array_map('trim', explode(',', $content));
 
-            return array_filter($keywords);
+            return array_filter($keywords, static fn (string $keyword): bool => $keyword !== '');
         } catch (\Exception $e) {
             if ($this->config->get('ai.fallback_enabled', true)) {
                 return $analysis['keywords'] ?? [];

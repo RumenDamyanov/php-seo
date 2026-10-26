@@ -50,14 +50,18 @@ class XaiProvider extends AbstractProvider
     public function getSupportedModels(): array
     {
         return [
-            // Latest models (Dec 2024)
-            'grok-2-latest',           // Latest Grok 2 model
-            'grok-2-vision-latest',    // Latest Grok 2 with vision
-            'grok-2-1212',             // Grok 2 (Dec 2024)
-            'grok-2-vision-1212',      // Grok 2 Vision (Dec 2024)
-            // Legacy beta models
-            'grok-beta',               // Original beta
-            'grok-vision-beta',        // Vision beta
+            // Current Grok models — https://docs.x.ai/developers/models/grok-4.6
+            'grok-4.7',
+            'grok-4.6',
+            'grok-4.5',
+            // Older names. xAI may redirect these to a current Grok 4 model.
+            'grok-3',
+            'grok-2-latest',
+            'grok-2-vision-latest',
+            'grok-2-1212',
+            'grok-2-vision-1212',
+            'grok-beta',
+            'grok-vision-beta',
         ];
     }
 
@@ -82,7 +86,7 @@ class XaiProvider extends AbstractProvider
      */
     protected function getDefaultModel(): string
     {
-        return 'grok-2-latest'; // Latest Grok 2 as of Dec 2024
+        return 'grok-4.6';
     }
 
     /**
@@ -238,7 +242,7 @@ class XaiProvider extends AbstractProvider
             $content = $this->parseResponse($response);
             $keywords = array_map('trim', explode(',', $content));
 
-            return array_filter($keywords);
+            return array_filter($keywords, static fn (string $keyword): bool => $keyword !== '');
         } catch (\Exception $e) {
             if ($this->config->get('ai.fallback_enabled', true)) {
                 return $analysis['keywords'] ?? [];

@@ -16,8 +16,10 @@ use Rumenx\PhpSeo\Contracts\AnalyzerInterface;
 class ImageAnalyzer implements AnalyzerInterface
 {
     /**
-     * @param SeoConfig $config Configuration (reserved for future use)
-     * @phpstan-ignore-next-line (Config reserved for future image analysis features)
+     * Configuration is reserved for future image analysis features.
+     *
+     * @param SeoConfig $config
+     * @phpstan-ignore-next-line
      */
     public function __construct(private SeoConfig $config)
     {

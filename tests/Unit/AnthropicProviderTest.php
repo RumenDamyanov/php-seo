@@ -42,6 +42,9 @@ test('AnthropicProvider returns supported models', function () {
     $models = $provider->getSupportedModels();
 
     expect($models)->toBeArray()
+        ->and($models)->toContain('claude-opus-5')
+        ->and($models)->toContain('claude-sonnet-5')
+        ->and($models)->toContain('claude-haiku-4-5')
         ->and($models)->toContain('claude-3-opus-20240229')
         ->and($models)->toContain('claude-3-sonnet-20240229')
         ->and($models)->toContain('claude-3-haiku-20240307')

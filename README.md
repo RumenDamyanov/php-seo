@@ -16,7 +16,7 @@
 - **Intelligent Content Analysis**: AI reads and analyzes page content to generate optimal titles, descriptions, and meta tags
 - **Image Analysis**: Automatically generates alt text and titles for images by analyzing context
 - **Social Media Optimization**: Generates platform-specific meta tags (Open Graph, Twitter Cards, etc.)
-- **Multi-Provider Support**: Integration with popular AI models (GPT-4o, Claude 3.5, Gemini 1.5, Grok, Ollama)
+- **Multi-Provider Support**: OpenAI (GPT-5.4), Anthropic (Claude Opus 5, Sonnet 5, Haiku 4.5), Google Gemini, xAI Grok, and Ollama
 
 ### 🔧 Manual Configuration Mode
 
@@ -33,7 +33,7 @@
 
 ### 🚀 Modern PHP
 
-- **Type-safe**: Full PHP 8.2+ type declarations and strict types
+- **Type-safe**: Full PHP 8.3+ type declarations and strict types
 - **Fluent Interface**: Chainable methods for elegant, readable code
 - **Extensible**: Plugin architecture for custom analyzers and generators
 - **High Performance**: Optimized for speed with caching and lazy loading
@@ -70,7 +70,7 @@ composer require rumenx/php-seo
 
 ### Requirements
 
-- PHP 8.2 or higher
+- PHP 8.3 or higher (security support until 31 Dec 2027; also tested on 8.4 and 8.5)
 - ext-json
 - ext-curl
 
@@ -302,7 +302,7 @@ return [
     'ai' => [
         'provider' => 'openai',
         'api_key' => env('SEO_AI_API_KEY'),
-        'model' => 'gpt-4o-mini', // Best cost/performance (Dec 2024)
+        'model' => 'gpt-5.4-mini',
     ],
     'title' => [
         'pattern' => '{title} | {site_name}',
@@ -324,7 +324,7 @@ SEO_CACHE_ENABLED=true
 # AI Provider
 SEO_AI_PROVIDER=openai
 SEO_AI_API_KEY=your-api-key-here
-SEO_AI_MODEL=gpt-4o-mini
+SEO_AI_MODEL=gpt-5.4-mini
 
 # Title settings
 SEO_TITLE_PATTERN="{title} | {site_name}"
@@ -344,7 +344,7 @@ $config = new SeoConfig([
     'ai' => [
         'provider' => 'openai',
         'api_key' => 'your-openai-api-key',
-        'model' => 'gpt-4o-mini', // Best cost/performance (Dec 2024)
+        'model' => 'gpt-5.4-mini',
     ],
 ]);
 ```
@@ -356,7 +356,7 @@ $config = new SeoConfig([
     'ai' => [
         'provider' => 'anthropic',
         'api_key' => 'your-anthropic-api-key',
-        'model' => 'claude-3-5-sonnet-20241022', // Latest Claude 3.5 Sonnet (Oct 2024)
+        'model' => 'claude-haiku-4-5', // Fast and inexpensive. Also: claude-sonnet-5, claude-opus-5
     ],
 ]);
 ```
@@ -368,7 +368,21 @@ $config = new SeoConfig([
     'ai' => [
         'provider' => 'google',
         'api_key' => 'your-google-api-key',
-        'model' => 'gemini-1.5-flash', // Latest Gemini 1.5 Flash (Dec 2024)
+        'model' => 'gemini-3.5-flash-lite', // Also: gemini-3.8-flash
+    ],
+]);
+```
+
+### xAI (Grok)
+
+Grok uses the OpenAI-compatible chat completions API at `https://api.x.ai/v1`.
+
+```php
+$config = new SeoConfig([
+    'ai' => [
+        'provider' => 'xai',
+        'api_key' => 'your-xai-api-key',
+        'model' => 'grok-4.6', // Also: grok-4.7, grok-4.5
     ],
 ]);
 ```
@@ -622,7 +636,7 @@ This package is part of a multi-language SEO ecosystem:
   - 🚀 Works in both Node.js and browser environments
 
 - **php-seo** (this package) - PHP SEO package for Laravel, Symfony, and any PHP project
-  - 🐘 PHP 8.2+ with full type safety
+  - 🐘 PHP 8.3+ with full type safety
   - 🤖 AI-powered content generation
   - 🏗️ Framework-agnostic with Laravel/Symfony integrations
 

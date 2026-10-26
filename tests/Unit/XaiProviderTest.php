@@ -41,6 +41,8 @@ test('XaiProvider returns supported models', function () {
     $models = $provider->getSupportedModels();
 
     expect($models)->toBeArray()
+        ->and($models)->toContain('grok-4.7')
+        ->and($models)->toContain('grok-4.6')
         ->and($models)->toContain('grok-beta')
         ->and($models)->toContain('grok-vision-beta');
 });

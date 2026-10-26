@@ -50,15 +50,17 @@ class OpenAiProvider extends AbstractProvider
     public function getSupportedModels(): array
     {
         return [
-            // Latest models (Dec 2024)
-            'gpt-4o',           // Latest GPT-4 Omni (May 2024) - Best quality
-            'gpt-4o-mini',      // Mini version (July 2024) - Best cost/performance
-            'o1-preview',       // Reasoning model (Sept 2024) - Complex tasks
-            'o1-mini',          // Fast reasoning (Sept 2024) - Quick reasoning
-            // Legacy models (still supported)
-            'gpt-4-turbo',      // Previous generation
-            'gpt-4',            // Original GPT-4
-            'gpt-3.5-turbo',    // Budget option
+            // Current models (Oct 2026) — https://developers.openai.com/api/docs/models/gpt-5.4
+            'gpt-5.4',          // Flagship GPT-5.4
+            'gpt-5.4-mini',     // Cheaper GPT-5.4 class model; best fit for titles and descriptions
+            // Previous generation
+            'gpt-4o',
+            'gpt-4o-mini',
+            'gpt-4-turbo',
+            'gpt-4',
+            'gpt-3.5-turbo',
+            'o1-preview',
+            'o1-mini',
         ];
     }
 
@@ -83,7 +85,7 @@ class OpenAiProvider extends AbstractProvider
      */
     protected function getDefaultModel(): string
     {
-        return 'gpt-4o-mini'; // Best cost/performance ratio as of Dec 2024
+        return 'gpt-5.4-mini';
     }
 
     /**
@@ -224,7 +226,7 @@ class OpenAiProvider extends AbstractProvider
             $content = $this->parseResponse($response);
             $keywords = array_map('trim', explode(',', $content));
 
-            return array_filter($keywords);
+            return array_filter($keywords, static fn (string $keyword): bool => $keyword !== '');
         } catch (\Exception $e) {
             if ($this->config->get('ai.fallback_enabled', true)) {
                 return $analysis['keywords'] ?? [];

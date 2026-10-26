@@ -135,11 +135,12 @@ test('OpenAiProvider returns supported models', function () {
     $models = $provider->getSupportedModels();
 
     expect($models)->toBeArray()
+        ->and($models)->toContain('gpt-5.4')
+        ->and($models)->toContain('gpt-5.4-mini')
         ->and($models)->toContain('gpt-4o-mini')
         ->and($models)->toContain('gpt-4')
         ->and($models)->toContain('gpt-4-turbo')
-        ->and($models)->toContain('gpt-4o')
-        ->and($models)->toContain('gpt-4o-mini');
+        ->and($models)->toContain('gpt-4o');
 });
 
 test('OpenAiProvider uses fallback for title when AI fails', function () {

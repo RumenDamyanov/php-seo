@@ -42,7 +42,7 @@ class SeoConfig
             // AI Provider settings
             'ai' => [
                 'provider' => 'openai', // 'openai', 'anthropic', 'google', 'xai', 'ollama'
-                'model' => 'gpt-4o-mini', // Best cost/performance as of Dec 2024
+                'model' => 'gpt-5.4-mini',
                 'api_key' => null,
                 'api_url' => null,
                 'timeout' => 30,
